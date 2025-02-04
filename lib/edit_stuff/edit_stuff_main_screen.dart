@@ -39,7 +39,7 @@ class _EditStuffMainScreenState extends State<EditStuffMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeBloc>(context);
+    final bloc = context.read<HomeBloc>();
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Theme.of(context).secondaryHeaderColor,

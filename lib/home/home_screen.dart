@@ -75,12 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final result = await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              return BlocProvider.value(
+            MaterialPageRoute(
+              builder: (newContext) => BlocProvider.value(
                 value: context.read<HomeBloc>(),
                 child: const EditStuffMainScreen(),
-              );
-            }),
+              ),
+            ),
           );
 
           if (result != null) {

@@ -6,13 +6,6 @@ import 'app.dart';
 
 void main() {
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => HomeBloc(),
-        ),
-      ],
-      child: const App(),
-    ),
+    const App(),
   );
 }
