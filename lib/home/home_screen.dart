@@ -34,6 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, state) {
           if (state is HomeSuccess) {
             final stuffs = state.stuffs;
+
+            if (stuffs.isEmpty) {
+              return _Empty();
+            }
+
             return Padding(
               padding: const EdgeInsets.all(12.0),
               child: SingleChildScrollView(
@@ -64,9 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
 
-          return const Center(
-            child: Text('No data'),
-          );
+          return const SizedBox.shrink();
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -87,6 +90,15 @@ class _HomeScreenState extends State<HomeScreen> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class _Empty extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('No data'),
     );
   }
 }
