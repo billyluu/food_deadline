@@ -1,47 +1,92 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.buildlog/
-.history
-.svn/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# 👉 忽略 Flutter 產生的 build 相關檔案
+build/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
 .pub-cache/
 .pub/
-/build/
 
-# Symbolication related
-app.*.symbols
+# 👉 忽略 VS Code 設定
+.vscode/
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
 
-# Obfuscation related
-app.*.map.json
+# 👉 忽略 JetBrains IDE 設定（Android Studio、IntelliJ IDEA）
+.idea/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf/
+.idea/**/libraries/Dart_SDK.xml
+.idea/**/libraries/Flutter_for_Android.xml
+*.iml
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# 👉 忽略 macOS/Linux/Windows 產生的檔案
+.DS_Store
+.env
+*.log
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+*.lock
+Thumbs.db
 
-# FVM Version Cache
-.fvm/
+# 👉 忽略 Android 相關產生的檔案
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+android/key.properties
+
+# 👉 忽略 iOS/macOS 相關產生的檔案
+ios/.symlinks/
+ios/Pods/
+ios/.generated/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Runner.xcworkspace/
+ios/Runner/GeneratedPluginRegistrant.*
+
+macos/.symlinks/
+macos/Pods/
+macos/.generated/
+macos/Flutter/ephemeral/
+macos/Flutter/flutter_export_environment.sh
+macos/Runner/GeneratedPluginRegistrant.*
+
+# 👉 忽略 Windows 相關產生的檔案
+windows/flutter/ephemeral/
+windows/CMakeFiles/
+windows/Flutter/flutter_export_environment.bat
+windows/Runner/GeneratedPluginRegistrant.*
+
+# 👉 忽略 Linux 相關產生的檔案
+linux/flutter/ephemeral/
+linux/CMakeFiles/
+linux/Flutter/flutter_export_environment.sh
+linux/Runner/GeneratedPluginRegistrant.*
+
+# 👉 忽略 Web 相關產生的檔案
+web/.dart_tool/
+web/build/
+web/generated_plugin_registrant.dart
+
+# 👉 忽略 Firebase / Google Services 憑證檔（請勿上傳到 Git）
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+
+# 👉 其他
+*.orig
+*.bak
+*.tmp
+*.swp
+*.swo
+*.swn
