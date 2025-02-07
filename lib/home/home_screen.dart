@@ -1,95 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_deadline/edit_stuff/edit_stuff_main_screen.dart';
-import 'package:food_deadline/home/home_bloc.dart';
+import 'package:food_deadline/blocs/core/stuff/stuff_bloc.dart';
 import 'package:food_deadline/home/widgets/stuff_deadline_card_item.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.title});
-
-  final String title;
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late HomeBloc homeBloc;
+  late StuffBloc stuffBloc;
 
   @override
   void initState() {
-    homeBloc = BlocProvider.of<HomeBloc>(context);
-    homeBloc.add(HomeInitialEvent());
+    stuffBloc = BlocProvider.of<StuffBloc>(context);
+    stuffBloc.add(StuffInitialEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state is HomeSuccess) {
-            final stuffs = state.stuffs;
+    return BlocBuilder<StuffBloc, StuffState>(
+      bloc: stuffBloc,
+      builder: (context, state) {
+        if (state is StuffSuccess) {
+          final stuffs = state.stuffs;
 
-            if (stuffs.isEmpty) {
-              return _Empty();
-            }
-
-            return Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    for (final stuff in stuffs) ...[
-                      StuffDeadlineCardItem(
-                        color: Theme.of(context).primaryColorLight,
-                        title: stuff.name,
-                        deadline: stuff.deadline.toString(),
-                        onDelete: () {
-                          homeBloc.add(HomeDeleteEvent(stuff: stuff));
-                        },
-                      ),
-                      if (stuff != stuffs.last)
-                        const SizedBox(
-                          height: 6.0,
-                        )
-                    ]
-                  ],
-                ),
-              ),
-            );
-          } else if (state is HomeLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+          if (stuffs.isEmpty) {
+            return _Empty();
           }
 
-          return const SizedBox.shrink();
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final result = await Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (newContext) => BlocProvider.value(
-                value: context.read<HomeBloc>(),
-                child: const EditStuffMainScreen(),
+          return Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  for (final stuff in stuffs) ...[
+                    StuffDeadlineCardItem(
+                      color: Theme.of(context).primaryColorLight,
+                      title: stuff.name,
+                      deadline: stuff.deadline.toString(),
+                      onDelete: () {
+                        stuffBloc.add(StuffDeleteEvent(stuff: stuff));
+                      },
+                    ),
+                    if (stuff != stuffs.last)
+                      const SizedBox(
+                        height: 6.0,
+                      )
+                  ]
+                ],
               ),
             ),
           );
+        } else if (state is StuffLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
 
-          if (result != null) {
-            homeBloc.add(HomeInitialEvent());
-          }
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+        return const SizedBox.shrink();
+      },
     );
   }
 }

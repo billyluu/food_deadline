@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_deadline/home/home_bloc.dart';
+import 'package:food_deadline/blocs/core/stuff/stuff_bloc.dart';
 import 'package:food_deadline/realm/models/stuff.dart';
 
 class EditStuffMainScreen extends StatefulWidget {
@@ -39,7 +39,7 @@ class _EditStuffMainScreenState extends State<EditStuffMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<HomeBloc>();
+    final bloc = context.read<StuffBloc>();
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Theme.of(context).secondaryHeaderColor,
@@ -107,7 +107,7 @@ class _EditStuffMainScreenState extends State<EditStuffMainScreen> {
               onPressed: () {
                 if (_stuffTextController.text.isNotEmpty) {
                   bloc.add(
-                    HomeAddEvent(
+                    StuffAddEvent(
                       stuff: Stuff.schema.newStuff(
                         _stuffTextController.text,
                         _date.millisecondsSinceEpoch,
