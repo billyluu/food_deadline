@@ -4,7 +4,7 @@ import 'package:food_deadline/blocs/core/stuff/stuff_bloc.dart';
 import 'package:food_deadline/edit_stuff/edit_stuff_main_screen.dart';
 import 'package:food_deadline/extension/datetime_extension.dart';
 import 'package:food_deadline/home/home_screen.dart';
-import 'package:food_deadline/blocs/ui/main/main_bloc.dart';
+import 'package:food_deadline/realm/realm_helper.dart';
 import 'package:food_deadline/widgets/CommonText.dart';
 
 enum MainBottomNavType {
@@ -39,14 +39,11 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
-  late MainBloc mainBloc;
   var _currentIndex = 0;
   final now = DateTime.now();
 
   @override
   void initState() {
-    mainBloc = BlocProvider.of<MainBloc>(context);
-    mainBloc.add(MainInitialEvent());
     super.initState();
   }
 
@@ -58,89 +55,96 @@ class MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(15),
-        child: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<StuffBloc>(
+          create: (context) =>
+              StuffBloc(realmHelper: RealmHelper())..add(StuffInitialEvent()),
         ),
-      ),
-      body: BlocBuilder<MainBloc, MainState>(
-        builder: (context, state) {
-          switch(state) {
-            case MainLoading():
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            case MainSuccess():
-              final expired = state.stuffs.where((stuff) => stuff.deadline < DateTime.now().millisecondsSinceEpoch).length;
+      ],
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(15),
+          child: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          ),
+        ),
+        body: BlocBuilder<StuffBloc, StuffState>(
+          builder: (context, state) {
+            if (state is StuffSuccess) {
+              final stuffs = state.stuffs;
+              final expired = stuffs
+                  .where((element) =>
+                      element.deadline < DateTime.now().millisecondsSinceEpoch)
+                  .length;
               return Column(
                 children: [
                   if (_currentIndex == MainBottomNavType.home.index)
                     _Header(
                       date: now,
-                      total: state.stuffs.length,
+                      total: stuffs.length,
                       expired: expired,
                     ),
-                  _buildScreen(_currentIndex),
+                  Expanded(
+                    child: IndexedStack(
+                      index: _currentIndex,
+                      children: const [
+                        HomeScreen(),
+                        SizedBox(), // 設定畫面
+                      ],
+                    ),
+                  ),
                 ],
               );
-          }
-        },
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        color: Theme.of(context).colorScheme.inversePrimary,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            for (var i = 0; i < MainBottomNavType.values.length; i++) ...[
-              ElevatedButton.icon(
-                label: Text(MainBottomNavType.values[i].title),
-                style: ElevatedButton.styleFrom(
-                  splashFactory: NoSplash.splashFactory,
-                  backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
+        bottomNavigationBar: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          color: Theme.of(context).colorScheme.inversePrimary,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              for (var i = 0; i < MainBottomNavType.values.length; i++) ...[
+                ElevatedButton.icon(
+                  label: Text(MainBottomNavType.values[i].title),
+                  style: ElevatedButton.styleFrom(
+                    splashFactory: NoSplash.splashFactory,
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                  ),
+                  onPressed: () => onItemTapped(i),
+                  icon: Icon(MainBottomNavType.values[i].icon),
                 ),
-                onPressed: () => onItemTapped(i),
-                icon: Icon(MainBottomNavType.values[i].icon),
-              ),
+              ],
             ],
-          ],
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: BlocBuilder<StuffBloc, StuffState>(
+          builder: (context, state) {
+            return FloatingActionButton(
+              shape: const CircleBorder(),
+              onPressed: () async {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => BlocProvider.value(
+                      value: context.read<StuffBloc>(),
+                      child: const EditStuffMainScreen(),
+                    ),
+                  ),
+                );
+              },
+              child: const Icon(Icons.add),
+            );
+          },
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(),
-        onPressed: () async {
-          final result = await Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (newContext) => BlocProvider.value(
-                value: StuffBloc(),
-                child: const EditStuffMainScreen(),
-              ),
-            ),
-          );
-
-          if (result != null) {
-            mainBloc.add(MainInitialEvent());
-          }
-        },
-        child: const Icon(Icons.add),
-      ),
     );
-  }
-
-  Widget _buildScreen(int index) {
-    switch (MainBottomNavType.values[index]) {
-      case MainBottomNavType.home:
-        return BlocProvider(
-          create: (context) => StuffBloc()..add(StuffInitialEvent()),
-          child: const HomeScreen(),
-        );
-      case MainBottomNavType.settings:
-        return const SizedBox(); // 設定畫面
-    }
   }
 }
 

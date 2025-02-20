@@ -71,11 +71,10 @@ class _EditStuffMainScreenState extends State<EditStuffMainScreen> {
                 _showDialog(
                   CupertinoDatePicker(
                     dateOrder: DatePickerDateOrder.ymd,
-                    initialDateTime: _date,
                     mode: CupertinoDatePickerMode.date,
                     use24hFormat: true,
                     showDayOfWeek: true,
-                    onDateTimeChanged: (DateTime newDate) => updateDate,
+                    onDateTimeChanged: (newDate) => updateDate(newDate),
                   ),
                 );
               },

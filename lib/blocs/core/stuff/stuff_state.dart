@@ -1,5 +1,6 @@
 part of 'stuff_bloc.dart';
 
+@immutable
 sealed class StuffState {}
 
 final class StuffLoading extends StuffState {
@@ -7,7 +8,7 @@ final class StuffLoading extends StuffState {
     this.stuffs,
   });
 
-  List<Stuff>? stuffs;
+  final List<Stuff>? stuffs;
 }
 
 final class StuffSuccess extends StuffState {
@@ -15,5 +16,5 @@ final class StuffSuccess extends StuffState {
     required this.stuffs,
   });
 
-  List<Stuff> stuffs;
+  final List<Stuff> stuffs;
 }

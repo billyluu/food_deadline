@@ -11,20 +11,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late StuffBloc stuffBloc;
-
   @override
   void initState() {
-    stuffBloc = BlocProvider.of<StuffBloc>(context);
-    stuffBloc.add(StuffInitialEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StuffBloc, StuffState>(
-      bloc: stuffBloc,
       builder: (context, state) {
+        final stuffBloc = context.read<StuffBloc>();
         if (state is StuffSuccess) {
           final stuffs = state.stuffs;
 

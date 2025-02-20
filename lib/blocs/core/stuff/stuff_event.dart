@@ -1,26 +1,24 @@
 part of 'stuff_bloc.dart';
 
-
-sealed class StuffEvent {}
+@immutable
+abstract class StuffEvent {}
 
 class StuffInitialEvent extends StuffEvent {}
 
 class StuffLoadEvent extends StuffEvent {}
 
 class StuffAddEvent extends StuffEvent {
+  final Stuff stuff;
+
   StuffAddEvent({
     required this.stuff,
   });
-
-  Stuff stuff;
 }
 
 class StuffDeleteEvent extends StuffEvent {
+  final Stuff stuff;
+
   StuffDeleteEvent({
     required this.stuff,
   });
-
-  Stuff stuff;
 }
-
-

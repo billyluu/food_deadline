@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_deadline/blocs/ui/main/main_bloc.dart';
 import 'package:food_deadline/main/main_screen.dart';
 
 void main() {
@@ -22,10 +20,7 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: BlocProvider(
-        create: (context) => MainBloc(),
-        child: const MainScreen(),
-      ),
+      home: const MainScreen(),
     );
   }
 }
