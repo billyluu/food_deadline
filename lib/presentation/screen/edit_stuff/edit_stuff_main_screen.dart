@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_deadline/blocs/core/stuff/stuff_bloc.dart';
+import 'package:food_deadline/presentation/blocs/stuff/stuff_bloc.dart';
 import 'package:food_deadline/realm/models/stuff.dart';
 
 class EditStuffMainScreen extends StatefulWidget {
@@ -114,7 +114,7 @@ class _EditStuffMainScreenState extends State<EditStuffMainScreen> {
                     ),
                   );
                 }
-                Navigator.pop(context, 'finish');
+                Navigator.pop(context);
               },
               child: const Text('送出'),
             )

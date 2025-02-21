@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_deadline/extension/datetime_extension.dart';
+import 'package:food_deadline/presentation/widgets/CommonText.dart';
 
 class StuffDeadlineCardItem extends StatefulWidget {
   const StuffDeadlineCardItem({
     required this.title,
     required this.deadline,
-    this.color = Colors.white,
     this.disabled = false,
     this.onPressed,
     this.onDelete,
@@ -15,7 +15,6 @@ class StuffDeadlineCardItem extends StatefulWidget {
   final String title;
   final String deadline;
   final bool disabled;
-  final Color color;
   final Function()? onPressed;
   final Function()? onDelete;
 
@@ -104,7 +103,7 @@ class _StuffDeadlineCardItemState extends State<StuffDeadlineCardItem>
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: widget.color,
+                      color: Theme.of(context).colorScheme.tertiary,
                     ),
                     padding: const EdgeInsets.all(12.0),
                     child: Row(
@@ -112,23 +111,21 @@ class _StuffDeadlineCardItemState extends State<StuffDeadlineCardItem>
                       children: [
                         Expanded(
                           flex: 2,
-                          child: Text(
-                            widget.title,
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
+                          child: CommonText(
+                            text: widget.title,
+                            style: CommonTextStyle.textStyle(
+                              color: Theme.of(context).colorScheme.onTertiary,
                             ),
                           ),
                         ),
                         Expanded(
                           flex: 1,
-                          child: Text(
-                            DateTime.fromMillisecondsSinceEpoch(
+                          child: CommonText(
+                            text: DateTime.fromMillisecondsSinceEpoch(
                               int.parse(widget.deadline),
                             ).toYYYYMMDD(),
-                            style: const TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
+                            style: CommonTextStyle.textStyle(
+                              color: Theme.of(context).colorScheme.onTertiary,
                             ),
                           ),
                         ),

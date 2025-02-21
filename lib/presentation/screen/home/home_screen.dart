@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_deadline/blocs/core/stuff/stuff_bloc.dart';
-import 'package:food_deadline/home/widgets/stuff_deadline_card_item.dart';
+import 'package:food_deadline/presentation/blocs/stuff/stuff_bloc.dart';
+
+import 'widgets/stuff_deadline_card_item.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   for (final stuff in stuffs) ...[
                     StuffDeadlineCardItem(
-                      color: Theme.of(context).primaryColorLight,
                       title: stuff.name,
                       deadline: stuff.deadline.toString(),
                       onDelete: () {

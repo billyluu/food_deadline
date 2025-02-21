@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_deadline/blocs/core/stuff/stuff_bloc.dart';
-import 'package:food_deadline/edit_stuff/edit_stuff_main_screen.dart';
 import 'package:food_deadline/extension/datetime_extension.dart';
-import 'package:food_deadline/home/home_screen.dart';
+import 'package:food_deadline/presentation/blocs/stuff/stuff_bloc.dart';
+import 'package:food_deadline/presentation/screen/edit_stuff/edit_stuff_main_screen.dart';
+import 'package:food_deadline/presentation/screen/home/home_screen.dart';
+import 'package:food_deadline/presentation/widgets/CommonText.dart';
 import 'package:food_deadline/realm/realm_helper.dart';
-import 'package:food_deadline/widgets/CommonText.dart';
 
 enum MainBottomNavType {
   home(
@@ -66,7 +66,7 @@ class MainScreenState extends State<MainScreen> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(15),
           child: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            backgroundColor: Theme.of(context).colorScheme.primary,
           ),
         ),
         body: BlocBuilder<StuffBloc, StuffState>(
@@ -105,20 +105,26 @@ class MainScreenState extends State<MainScreen> {
         ),
         bottomNavigationBar: BottomAppBar(
           shape: const CircularNotchedRectangle(),
-          color: Theme.of(context).colorScheme.inversePrimary,
+          color: Theme.of(context).colorScheme.primary,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               for (var i = 0; i < MainBottomNavType.values.length; i++) ...[
                 ElevatedButton.icon(
-                  label: Text(MainBottomNavType.values[i].title),
+                  label: CommonText(
+                    text: MainBottomNavType.values[i].title,
+                    style: CommonTextStyle.textStyle(
+                        color: Theme.of(context).colorScheme.onPrimary),
+                  ),
                   style: ElevatedButton.styleFrom(
-                    splashFactory: NoSplash.splashFactory,
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
                   ),
                   onPressed: () => onItemTapped(i),
-                  icon: Icon(MainBottomNavType.values[i].icon),
+                  icon: Icon(
+                    MainBottomNavType.values[i].icon,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ),
               ],
             ],
@@ -163,7 +169,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.inversePrimary,
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(16),
           bottomRight: Radius.circular(16),
@@ -174,21 +180,24 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            date.toYYYYMMDD(),
-            style: CommonTextStyle.textStyleLarge(),
+          CommonText(
+            text: date.toYYYYMMDD(),
+            style: CommonTextStyle.textStyleLarge(
+                color: Theme.of(context).colorScheme.onPrimary),
           ),
           const SizedBox(height: 8),
           Row(
             children: [
-              Text(
-                '總數量：$total',
-                style: CommonTextStyle.textStyle(),
+              CommonText(
+                text: '總數量：$total',
+                style: CommonTextStyle.textStyle(
+                    color: Theme.of(context).colorScheme.onPrimary),
               ),
               const SizedBox(width: 16),
-              Text(
-                '過期：$expired',
-                style: CommonTextStyle.textStyle(),
+              CommonText(
+                text: '過期：$expired',
+                style: CommonTextStyle.textStyle(
+                    color: Theme.of(context).colorScheme.onPrimary),
               ),
             ],
           )

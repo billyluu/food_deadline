@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_deadline/main/main_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_deadline/core/constants/color.dart';
+import 'package:food_deadline/presentation/blocs/app_settings/app_settings_bloc.dart';
+import 'package:food_deadline/presentation/screen/main/main_screen.dart';
 
 void main() {
   runApp(
@@ -13,14 +16,26 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      locale: const Locale('zh', 'TW'),
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AppSettingsBloc>(
+          create: (context) => AppSettingsBloc(),
+        ),
+      ],
+      child: MaterialApp(
+        locale: const Locale('en'),
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green, brightness: Brightness.light),
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green, brightness: Brightness.dark),
+          useMaterial3: true,
+        ),
+        themeMode: ThemeMode.system,
+        home: const MainScreen(),
       ),
-      home: const MainScreen(),
     );
   }
 }
