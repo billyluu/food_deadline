@@ -3,6 +3,8 @@ part of 'app_settings_bloc.dart';
 @immutable
 sealed class AppSettingsEvent {}
 
+final class AppSettingsLoadingEvent extends AppSettingsEvent {}
+
 final class AppSettingsUpdateLocaleEvent extends AppSettingsEvent {
   AppSettingsUpdateLocaleEvent({
     required this.locale,
@@ -16,5 +18,5 @@ final class AppSettingsUpdateThemeEvent extends AppSettingsEvent {
     required this.theme,
   });
 
-  final ThemeData theme;
+  final ThemeMode theme;
 }

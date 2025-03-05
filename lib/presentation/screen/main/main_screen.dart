@@ -4,7 +4,8 @@ import 'package:food_deadline/extension/datetime_extension.dart';
 import 'package:food_deadline/presentation/blocs/stuff/stuff_bloc.dart';
 import 'package:food_deadline/presentation/screen/edit_stuff/edit_stuff_main_screen.dart';
 import 'package:food_deadline/presentation/screen/home/home_screen.dart';
-import 'package:food_deadline/presentation/widgets/CommonText.dart';
+import 'package:food_deadline/presentation/screen/settings/settings_screen.dart';
+import 'package:food_deadline/presentation/widgets/common_text.dart';
 import 'package:food_deadline/realm/realm_helper.dart';
 
 enum MainBottomNavType {
@@ -90,7 +91,7 @@ class MainScreenState extends State<MainScreen> {
                       index: _currentIndex,
                       children: const [
                         HomeScreen(),
-                        SizedBox(), // 設定畫面
+                        SettingsScreen(), // 設定畫面
                       ],
                     ),
                   ),
