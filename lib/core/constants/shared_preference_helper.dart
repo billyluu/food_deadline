@@ -40,11 +40,11 @@ class SharedPreferenceHelper {
     await prefs.setString(_localeKey, locale);
   }
 
-  static Future<Locale> getLocale() async {
+  static Future<AppLocale> getLocale() async {
     final prefs = await SharedPreferences.getInstance();
     final appLocale = AppLocale.values.where((element) {
       return element.name == (prefs.getString(_localeKey) ?? AppLocale.zh_TW.name);
     }).firstOrNull ?? AppLocale.zh_TW;
-    return Locale(appLocale.languageCode, appLocale.countryCode); // 預設為繁體中文
+    return appLocale;
   }
 }

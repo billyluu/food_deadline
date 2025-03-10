@@ -7,10 +7,10 @@ final class AppSettingsLoadingEvent extends AppSettingsEvent {}
 
 final class AppSettingsUpdateLocaleEvent extends AppSettingsEvent {
   AppSettingsUpdateLocaleEvent({
-    required this.locale,
+    required this.appLocale,
   });
 
-  final Locale locale;
+  final AppLocale appLocale;
 }
 
 final class AppSettingsUpdateThemeEvent extends AppSettingsEvent {

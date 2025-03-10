@@ -22,7 +22,7 @@ class App extends StatelessWidget {
         builder: (context, state) {
           context.read<AppSettingsBloc>().add(AppSettingsLoadingEvent());
           return MaterialApp(
-            locale: state.locale,
+            locale: state.appLocale.getLocale(),
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
                   seedColor: Colors.green, brightness: Brightness.light),

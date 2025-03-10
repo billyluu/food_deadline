@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:food_deadline/core/constants/enums/app_locale.dart';
 import 'package:food_deadline/core/constants/shared_preference_helper.dart';
 
 part 'app_settings_event.dart';
@@ -8,7 +9,7 @@ part 'app_settings_state.dart';
 class AppSettingsBloc extends Bloc<AppSettingsEvent, AppSettingsState> {
   AppSettingsBloc()
       : super(
-          AppSettingsState(locale: const Locale('en'), theme: ThemeMode.system, notificationsEnabled: true),
+          AppSettingsState(appLocale: AppLocale.zh_TW, theme: ThemeMode.system, notificationsEnabled: true),
         ) {
     on<AppSettingsLoadingEvent>((event, emit) => _loadAppSettings(event, emit));
     on<AppSettingsUpdateLocaleEvent>((event, emit) => _updateLocale(event, emit));
@@ -21,12 +22,13 @@ class AppSettingsBloc extends Bloc<AppSettingsEvent, AppSettingsState> {
     final locale = await SharedPreferenceHelper.getLocale();
     final theme = await SharedPreferenceHelper.getThemeMode();
     final notificationsEnabled = await SharedPreferenceHelper.getNotificationsEnabled();
-    emit(state.copyWith(locale: locale, theme: theme, notificationsEnabled: notificationsEnabled));
+    emit(state.copyWith(appLocale: locale, theme: theme, notificationsEnabled: notificationsEnabled));
   }
 
   Future<void> _updateLocale(AppSettingsUpdateLocaleEvent event,
       Emitter<AppSettingsState> emit) async {
-    emit(state.copyWith(locale: event.locale));
+    SharedPreferenceHelper.setLocale(event.appLocale.name);
+    emit(state.copyWith(appLocale: event.appLocale));
   }
 
   Future<void> _updateTheme(AppSettingsUpdateThemeEvent event,
