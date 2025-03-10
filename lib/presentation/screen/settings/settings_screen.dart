@@ -5,6 +5,7 @@ import 'package:food_deadline/presentation/widgets/common_text.dart';
 import 'package:food_deadline/presentation/widgets/fd_card.dart';
 
 part 'widgets/setting_theme_widget.dart';
+part 'widgets/setting_notify_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -21,6 +22,8 @@ class _SettingScreenState extends State<SettingsScreen> {
       child: Column(
         children: [
           _SettingThemeWidget(),
+          const SizedBox(height: 12.0),
+          _SettingNotifyWidget(),
         ],
       ),
     );

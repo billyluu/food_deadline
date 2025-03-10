@@ -20,3 +20,11 @@ final class AppSettingsUpdateThemeEvent extends AppSettingsEvent {
 
   final ThemeMode theme;
 }
+
+final class AppSettingsUpdateNotificationsEvent extends AppSettingsEvent {
+  AppSettingsUpdateNotificationsEvent({
+    required this.notificationsEnabled,
+  });
+
+  final bool notificationsEnabled;
+}
