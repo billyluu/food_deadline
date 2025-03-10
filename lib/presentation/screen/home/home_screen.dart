@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     StuffDeadlineCardItem(
                       title: stuff.name,
                       deadline: stuff.deadline.toString(),
+                      disabled: stuff.isExpired,
                       onDelete: () {
                         stuffBloc.add(StuffDeleteEvent(stuff: stuff));
                       },

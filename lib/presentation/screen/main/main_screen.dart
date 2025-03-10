@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_deadline/core/constants/enums/app_task.dart';
 import 'package:food_deadline/extension/datetime_extension.dart';
 import 'package:food_deadline/presentation/blocs/stuff/stuff_bloc.dart';
 import 'package:food_deadline/presentation/screen/edit_stuff/edit_stuff_main_screen.dart';
@@ -7,6 +8,7 @@ import 'package:food_deadline/presentation/screen/home/home_screen.dart';
 import 'package:food_deadline/presentation/screen/settings/settings_screen.dart';
 import 'package:food_deadline/presentation/widgets/common_text.dart';
 import 'package:food_deadline/realm/realm_helper.dart';
+import 'package:workmanager/workmanager.dart';
 
 enum MainBottomNavType {
   home(
@@ -137,13 +139,18 @@ class MainScreenState extends State<MainScreen> {
             return FloatingActionButton(
               shape: const CircleBorder(),
               onPressed: () async {
-                await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => BlocProvider.value(
-                      value: context.read<StuffBloc>(),
-                      child: const EditStuffMainScreen(),
-                    ),
-                  ),
+                // await Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (_) => BlocProvider.value(
+                //       value: context.read<StuffBloc>(),
+                //       child: const EditStuffMainScreen(),
+                //     ),
+                //   ),
+                // );
+                Workmanager().registerOneOffTask(
+                  'test_task',
+                  AppTask.updateDeadline.name,
+                  initialDelay: const Duration(seconds: 5), // 5 秒後執行
                 );
               },
               child: const Icon(Icons.add),

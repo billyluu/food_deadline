@@ -9,6 +9,8 @@ class _Stuff {
   late ObjectId id;
   late String name;
   late int deadline;
+
+  bool get isExpired => DateTime.now().millisecondsSinceEpoch > deadline;
 }
 
 extension StuffExtension on SchemaObject {
