@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_deadline/core/constants/app_localizations.dart';
+import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/extension/datetime_extension.dart';
 import 'package:food_deadline/presentation/blocs/stuff/stuff_bloc.dart';
 import 'package:food_deadline/presentation/screen/edit_stuff/edit_stuff_main_screen.dart';
@@ -10,12 +12,12 @@ import 'package:food_deadline/realm/realm_helper.dart';
 
 enum MainBottomNavType {
   home(
-    title: 'Home',
+    title: AppString.bottomNavBarHome,
     icon: Icons.home,
     screen: HomeScreen(),
   ),
   settings(
-    title: 'Settings',
+    title: AppString.bottomNavBarSetting,
     icon: Icons.settings,
     screen: SizedBox(),
   ),
@@ -27,7 +29,7 @@ enum MainBottomNavType {
     required this.screen,
   });
 
-  final String title;
+  final AppString title;
   final IconData icon;
   final Widget screen;
 }
@@ -113,7 +115,7 @@ class MainScreenState extends State<MainScreen> {
               for (var i = 0; i < MainBottomNavType.values.length; i++) ...[
                 ElevatedButton.icon(
                   label: CommonText(
-                    text: MainBottomNavType.values[i].title,
+                    text: MainBottomNavType.values[i].title.getL10n(context),
                     style: CommonTextStyle.textStyle(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
@@ -190,13 +192,13 @@ class _Header extends StatelessWidget {
           Row(
             children: [
               CommonText(
-                text: '總數量：$total',
+                text: '${AppString.homeScreenTotal.getL10n(context)}$total',
                 style: CommonTextStyle.textStyle(
                     color: Theme.of(context).colorScheme.onPrimary),
               ),
               const SizedBox(width: 16),
               CommonText(
-                text: '過期：$expired',
+                text: '${AppString.homeScreenExpired.getL10n(context)}$expired',
                 style: CommonTextStyle.textStyle(
                     color: Theme.of(context).colorScheme.onPrimary),
               ),
