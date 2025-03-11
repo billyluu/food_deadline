@@ -33,9 +33,3 @@ jobs:
 
       - name: 🧪 運行測試
         run: flutter test
-
-      - name: 📦 構建 APK（可選）
-        run: flutter build apk --release
-
-      - name: 📦 構建 Web（可選）
-        run: flutter build web
