@@ -7,7 +7,11 @@ class _SettingNotifyWidget extends StatelessWidget {
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
-          const CommonText(text: '通知開關: '),
+          CommonText(
+            text: AppString.settingScreenNotificationSwitch.getL10n(context),
+            style: CommonTextStyle.textStyle(
+                color: Theme.of(context).colorScheme.onTertiary),
+          ),
           const SizedBox(width: 24.0),
           BlocBuilder<AppSettingsBloc, AppSettingsState>(
             builder: (context, state) => Switch(

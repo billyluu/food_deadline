@@ -4,16 +4,19 @@ class CommonText extends StatelessWidget {
   const CommonText({
     required this.text,
     this.style,
+    this.textAlign,
     super.key,
   });
 
   final String text;
   final TextStyle? style;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: textAlign,
       style: style,
     );
   }
