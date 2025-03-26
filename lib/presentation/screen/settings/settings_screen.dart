@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
 import 'package:food_deadline/presentation/blocs/app_settings/app_settings_bloc.dart';
 import 'package:food_deadline/presentation/widgets/common_text.dart';

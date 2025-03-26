@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/extension/datetime_extension.dart';
 import 'package:food_deadline/presentation/widgets/common_text.dart';
 
@@ -73,14 +74,10 @@ class _StuffDeadlineCardItemState extends State<StuffDeadlineCardItem>
                   color: Colors.red,
                 ),
                 padding: const EdgeInsets.all(12.0),
-                child: const Text(
-                  '刪除',
+                child: CommonText(
+                  text: AppString.commonDelete.getL10n(context),
                   textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: CommonTextStyle.textStyle(color: Colors.white),
                 ),
               ),
             ),

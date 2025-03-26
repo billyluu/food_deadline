@@ -1,0 +1,35 @@
+name: Flutter CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-and-test:
+    name: Build & Test Flutter App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚀 檢出專案代碼
+        uses: actions/checkout@v4
+
+      - name: 🛠️ 設定 Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.x"  # 你可以指定確切版本，如 3.16.0
+          cache: true  # 啟用快取，減少 `pub get` 下載時間
+
+      - name: 📦 安裝依賴
+        run: flutter pub get
+
+      - name: 🔍 代碼靜態分析
+        run: flutter analyze
+
+      - name: 🧪 運行測試
+        run: flutter test
