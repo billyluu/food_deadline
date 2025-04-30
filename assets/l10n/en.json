@@ -1,11 +1,18 @@
 {
   "app_name": "FoodDeadline",
   "common_delete": "Delete",
+  "common_send": "Send",
+  "common_close": "Close",
+  "common_confirm": "Confirm",
+  "common_cancel": "Cancel",
   "bottomNavBar_home": "Home",
   "bottomNavBar_setting": "Setting",
   "homeScreen_total": "Total: ",
   "homeScreen_expired": "Expired: ",
   "settingScreen_themeMode": "ThemeMode: ",
   "settingScreen_notificationSwitch": "Notification Switch: ",
-  "settingScreen_language": "Language: "
+  "settingScreen_language": "Language: ",
+  "editExpirableItemScreen_add": "Create New Item",
+  "editExpirableItemScreen_name": "Name: ",
+  "editExpirableItemScreen_input_placeHolder": "Please enter the item name (up to 30 characters)"
 }

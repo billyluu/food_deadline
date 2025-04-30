@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_deadline/core/constants/app_string.dart';
-import 'package:food_deadline/extension/datetime_extension.dart';
-import 'package:food_deadline/presentation/widgets/common_text.dart';
+import 'package:food_deadline/core/extension/datetime_extension.dart';
+import 'package:food_deadline/shared/widgets/common_text.dart';
 
 class StuffDeadlineCardItem extends StatefulWidget {
   const StuffDeadlineCardItem({

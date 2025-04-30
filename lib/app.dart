@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:food_deadline/core/blocs/notification/notification_bloc.dart';
 import 'package:food_deadline/core/constants/app_localizations.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
-import 'package:food_deadline/presentation/blocs/app_settings/app_settings_bloc.dart';
-import 'package:food_deadline/presentation/screen/main/main_screen.dart';
+import 'package:food_deadline/features/main/main_screen.dart';
+import 'package:food_deadline/features/settings/blocs/app_settings/app_settings_bloc.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -14,6 +15,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppSettingsBloc>(create: (context) => AppSettingsBloc()),
+        BlocProvider<NotificationBloc>(create: (context) => NotificationBloc()),
       ],
       child: BlocBuilder<AppSettingsBloc, AppSettingsState>(
         builder: (context, state) {
@@ -22,19 +24,23 @@ class App extends StatelessWidget {
             supportedLocales: AppLocale.values.map((e) => e.getLocale()),
             locale: state.appLocale.getLocale(),
             localizationsDelegates: const [
-              AppLocalizations.delegate, // 自定義多國語系
+              AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
-                  seedColor: Colors.green, brightness: Brightness.light),
+                seedColor: Colors.green,
+                brightness: Brightness.light,
+              ),
               useMaterial3: true,
             ),
             darkTheme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
-                  seedColor: Colors.green, brightness: Brightness.dark),
+                seedColor: Colors.green,
+                brightness: Brightness.dark,
+              ),
               useMaterial3: true,
             ),
             themeMode: state.theme,

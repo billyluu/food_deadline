@@ -1,0 +1,6 @@
+
+enum AppNotificationType {
+  normal,
+  major,
+  ;
+}

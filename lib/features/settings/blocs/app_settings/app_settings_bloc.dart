@@ -9,7 +9,7 @@ part 'app_settings_state.dart';
 class AppSettingsBloc extends Bloc<AppSettingsEvent, AppSettingsState> {
   AppSettingsBloc()
       : super(
-          AppSettingsState(appLocale: AppLocale.zh_TW, theme: ThemeMode.system, notificationsEnabled: true),
+          AppSettingsState(appLocale: AppLocale.zhTW, theme: ThemeMode.system, notificationsEnabled: true),
         ) {
     on<AppSettingsLoadingEvent>((event, emit) => _loadAppSettings(event, emit));
     on<AppSettingsUpdateLocaleEvent>((event, emit) => _updateLocale(event, emit));

@@ -1,14 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stuff.dart';
+part of 'expirable_item.dart';
 
 // **************************************************************************
 // RealmObjectGenerator
 // **************************************************************************
 
 // ignore_for_file: type=lint
-class Stuff extends _Stuff with RealmEntity, RealmObjectBase, RealmObject {
-  Stuff(
+class ExpirableItem extends _ExpirableItem
+    with RealmEntity, RealmObjectBase, RealmObject {
+  ExpirableItem(
     ObjectId id,
     String name,
     int deadline,
@@ -18,7 +19,7 @@ class Stuff extends _Stuff with RealmEntity, RealmObjectBase, RealmObject {
     RealmObjectBase.set(this, 'deadline', deadline);
   }
 
-  Stuff._();
+  ExpirableItem._();
 
   @override
   ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
@@ -36,15 +37,16 @@ class Stuff extends _Stuff with RealmEntity, RealmObjectBase, RealmObject {
   set deadline(int value) => RealmObjectBase.set(this, 'deadline', value);
 
   @override
-  Stream<RealmObjectChanges<Stuff>> get changes =>
-      RealmObjectBase.getChanges<Stuff>(this);
+  Stream<RealmObjectChanges<ExpirableItem>> get changes =>
+      RealmObjectBase.getChanges<ExpirableItem>(this);
 
   @override
-  Stream<RealmObjectChanges<Stuff>> changesFor([List<String>? keyPaths]) =>
-      RealmObjectBase.getChangesFor<Stuff>(this, keyPaths);
+  Stream<RealmObjectChanges<ExpirableItem>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<ExpirableItem>(this, keyPaths);
 
   @override
-  Stuff freeze() => RealmObjectBase.freezeObject<Stuff>(this);
+  ExpirableItem freeze() => RealmObjectBase.freezeObject<ExpirableItem>(this);
 
   EJsonValue toEJson() {
     return <String, dynamic>{
@@ -54,8 +56,8 @@ class Stuff extends _Stuff with RealmEntity, RealmObjectBase, RealmObject {
     };
   }
 
-  static EJsonValue _toEJson(Stuff value) => value.toEJson();
-  static Stuff _fromEJson(EJsonValue ejson) {
+  static EJsonValue _toEJson(ExpirableItem value) => value.toEJson();
+  static ExpirableItem _fromEJson(EJsonValue ejson) {
     if (ejson is! Map<String, dynamic>) return raiseInvalidEJson(ejson);
     return switch (ejson) {
       {
@@ -63,7 +65,7 @@ class Stuff extends _Stuff with RealmEntity, RealmObjectBase, RealmObject {
         'name': EJsonValue name,
         'deadline': EJsonValue deadline,
       } =>
-        Stuff(
+        ExpirableItem(
           fromEJson(id),
           fromEJson(name),
           fromEJson(deadline),
@@ -73,9 +75,10 @@ class Stuff extends _Stuff with RealmEntity, RealmObjectBase, RealmObject {
   }
 
   static final schema = () {
-    RealmObjectBase.registerFactory(Stuff._);
+    RealmObjectBase.registerFactory(ExpirableItem._);
     register(_toEJson, _fromEJson);
-    return const SchemaObject(ObjectType.realmObject, Stuff, 'Stuff', [
+    return const SchemaObject(
+        ObjectType.realmObject, ExpirableItem, 'ExpirableItem', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('deadline', RealmPropertyType.int),

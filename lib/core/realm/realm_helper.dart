@@ -1,10 +1,10 @@
 import 'package:realm/realm.dart';
 
-import 'models/stuff.dart';
+import 'models/expirable_item.dart';
 
 class RealmHelper {
   static final Realm _realm = Realm(Configuration.local([
-    Stuff.schema,
+    ExpirableItem.schema,
   ]));
 
   static getRealm(Function(Realm realm) callback) => callback(_realm);

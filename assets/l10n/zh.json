@@ -1,11 +1,18 @@
 {
   "app_name": "保鮮記",
   "common_delete": "刪除",
+  "common_send": "送出",
+  "common_close": "關閉",
+  "common_confirm": "確認",
+  "common_cancel": "取消",
   "bottomNavBar_home": "首頁",
   "bottomNavBar_setting": "設定",
   "homeScreen_total": "總數量：",
   "homeScreen_expired": "過期：",
   "settingScreen_themeMode": "主題模式：",
   "settingScreen_notificationSwitch": "通知開關：",
-  "settingScreen_language": "語系："
+  "settingScreen_language": "語系：",
+  "editExpirableItemScreen_add": "新增物品",
+  "editExpirableItemScreen_name": "物品名稱：",
+  "editExpirableItemScreen_input_placeHolder": "請輸入物品名稱，上限30字"
 }

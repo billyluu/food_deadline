@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
-import 'package:food_deadline/presentation/blocs/app_settings/app_settings_bloc.dart';
-import 'package:food_deadline/presentation/widgets/common_text.dart';
-import 'package:food_deadline/presentation/widgets/fd_card.dart';
+import 'package:food_deadline/features/settings/blocs/app_settings/app_settings_bloc.dart';
+import 'package:food_deadline/shared/widgets/common_text.dart';
+import 'package:food_deadline/shared/widgets/fd_card.dart';
 
 part 'widgets/setting_theme_widget.dart';
 part 'widgets/setting_notify_widget.dart';

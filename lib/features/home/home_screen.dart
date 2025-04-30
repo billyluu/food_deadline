@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_deadline/presentation/blocs/stuff/stuff_bloc.dart';
+import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';
 
 import 'widgets/stuff_deadline_card_item.dart';
 
@@ -19,11 +19,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StuffBloc, StuffState>(
+    return BlocBuilder<ExpirableItemBloc, ExpirableItemState>(
       builder: (context, state) {
-        final stuffBloc = context.read<StuffBloc>();
-        if (state is StuffSuccess) {
-          final stuffs = state.stuffs;
+        final stuffBloc = context.read<ExpirableItemBloc>();
+        if (state is ExpirableItemSuccess) {
+          final stuffs = state.expirableItem;
 
           if (stuffs.isEmpty) {
             return _Empty();
@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       deadline: stuff.deadline.toString(),
                       disabled: stuff.isExpired,
                       onDelete: () {
-                        stuffBloc.add(StuffDeleteEvent(stuff: stuff));
+                        stuffBloc.add(ExpirableItemDeleteEvent(expirableItem: stuff));
                       },
                     ),
                     if (stuff != stuffs.last)
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           );
-        } else if (state is StuffLoading) {
+        } else if (state is ExpirableItemLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_deadline/core/constants/enums/app_task.dart';
-import 'package:food_deadline/extension/datetime_extension.dart';
-import 'package:food_deadline/presentation/blocs/stuff/stuff_bloc.dart';
-import 'package:food_deadline/presentation/screen/edit_stuff/edit_stuff_main_screen.dart';
-import 'package:food_deadline/presentation/screen/home/home_screen.dart';
-import 'package:food_deadline/presentation/screen/settings/settings_screen.dart';
-import 'package:food_deadline/presentation/widgets/common_text.dart';
-import 'package:food_deadline/realm/realm_helper.dart';
-import 'package:workmanager/workmanager.dart';
+import 'package:food_deadline/core/constants/app_string.dart';
+import 'package:food_deadline/core/extension/datetime_extension.dart';
+import 'package:food_deadline/core/realm/realm_helper.dart';
+import 'package:food_deadline/features/dialog/edit_expirable_item_dialog.dart';
+import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';
+import 'package:food_deadline/features/home/home_screen.dart';
+import 'package:food_deadline/features/settings/settings_screen.dart';
+import 'package:food_deadline/shared/widgets/common_text.dart';
 
 enum MainBottomNavType {
   home(
@@ -60,9 +59,9 @@ class MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<StuffBloc>(
-          create: (context) =>
-              StuffBloc(realmHelper: RealmHelper())..add(StuffInitialEvent()),
+        BlocProvider<ExpirableItemBloc>(
+          create: (context) => ExpirableItemBloc(realmHelper: RealmHelper())
+            ..add(ExpirableItemInitialEvent()),
         ),
       ],
       child: Scaffold(
@@ -72,10 +71,10 @@ class MainScreenState extends State<MainScreen> {
             backgroundColor: Theme.of(context).colorScheme.primary,
           ),
         ),
-        body: BlocBuilder<StuffBloc, StuffState>(
+        body: BlocBuilder<ExpirableItemBloc, ExpirableItemState>(
           builder: (context, state) {
-            if (state is StuffSuccess) {
-              final stuffs = state.stuffs;
+            if (state is ExpirableItemSuccess) {
+              final stuffs = state.expirableItem;
               final expired = stuffs
                   .where((element) =>
                       element.deadline < DateTime.now().millisecondsSinceEpoch)
@@ -134,11 +133,12 @@ class MainScreenState extends State<MainScreen> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: BlocBuilder<StuffBloc, StuffState>(
+        floatingActionButton:
+            BlocBuilder<ExpirableItemBloc, ExpirableItemState>(
           builder: (context, state) {
             return FloatingActionButton(
               shape: const CircleBorder(),
-              onPressed: () async {
+              onPressed: () {
                 // await Navigator.of(context).push(
                 //   MaterialPageRoute(
                 //     builder: (_) => BlocProvider.value(
@@ -147,11 +147,9 @@ class MainScreenState extends State<MainScreen> {
                 //     ),
                 //   ),
                 // );
-                Workmanager().registerOneOffTask(
-                  'test_task',
-                  AppTask.updateDeadline.name,
-                  initialDelay: const Duration(seconds: 5), // 5 秒後執行
-                );
+                showDialog(
+                    context: context,
+                    builder: (context) => const EditExpirableItemDialog());
               },
               child: const Icon(Icons.add),
             );
