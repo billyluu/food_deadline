@@ -1,41 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/core/realm/models/expirable_item.dart';
 import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';
-import 'package:food_deadline/shared/widgets/common_text.dart';
+import 'package:food_deadline/shared/widgets/shared_close_icon_button.dart';
+import 'package:food_deadline/shared/widgets/shared_send_button.dart';
 import 'package:intl/intl.dart';
 
 class EditExpirableItemDialog extends StatefulWidget {
   const EditExpirableItemDialog({super.key});
 
   @override
-  State<EditExpirableItemDialog> createState() =>
-      _EditExpirableItemDialogState();
+  State<EditExpirableItemDialog> createState() => _EditExpirableItemDialogState();
 }
 
 class _EditExpirableItemDialogState extends State<EditExpirableItemDialog> {
   final _stuffTextController = TextEditingController();
   DateTime _date = DateTime.now();
-
-  void _showDialog(Widget child) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) => Container(
-        height: 216,
-        padding: const EdgeInsets.only(top: 6.0),
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        color: CupertinoColors.systemBackground.resolveFrom(context),
-        child: SafeArea(
-          top: false,
-          child: child,
-        ),
-      ),
-    );
-  }
 
   void updateDate(DateTime newDate) {
     setState(() => _date = newDate);
@@ -44,24 +25,24 @@ class _EditExpirableItemDialogState extends State<EditExpirableItemDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: const EdgeInsets.all(16.0),
+      contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              CommonText(text: AppString.commonClose.getL10n(context)),
+              SharedCloseIconButton(
+                onPressed: () => Navigator.pop(context),
+              )
             ],
           ),
           TextField(
             keyboardType: TextInputType.text,
             controller: _stuffTextController,
             decoration: InputDecoration(
-              label:
-                  Text(AppString.editExpirableItemScreenName.getL10n(context)),
-              hintText: AppString.editExpirableItemScreenInputPlaceHolder
-                  .getL10n(context),
+              label: Text(AppString.editExpirableItemScreenName.getL10n(context)),
+              hintText: AppString.editExpirableItemScreenInputPlaceHolder.getL10n(context),
               hintStyle: TextStyle(
                 color: Theme.of(context).hintColor,
                 fontSize: 12,
@@ -69,52 +50,17 @@ class _EditExpirableItemDialogState extends State<EditExpirableItemDialog> {
             ),
           ),
           const SizedBox(height: 36),
-          GestureDetector(
-            onTap: () {
-              _showDialog(
-                CupertinoDatePicker(
-                  dateOrder: DatePickerDateOrder.ymd,
-                  mode: CupertinoDatePickerMode.date,
-                  use24hFormat: true,
-                  showDayOfWeek: true,
-                  onDateTimeChanged: (newDate) => updateDate(newDate),
-                ),
-              );
+          DatePickerField(
+            initialDate: DateTime.now(),
+            onDateChanged: (date) {
+              _date = date;
             },
-            child: DatePickerField(
-              initialDate: DateTime.now(),
-              onDateChanged: (date) {
-                print('新日期: $date');
-              },
-            ),
-            // child: DecoratedBox(
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(15.0),
-            //     border: Border.all(
-            //       color: Theme.of(context).disabledColor,
-            //       width: 1,
-            //     ),
-            //   ),
-            //   child: Padding(
-            //     padding: const EdgeInsets.symmetric(
-            //       vertical: 12,
-            //       horizontal: 16,
-            //     ),
-            //     child: Text(
-            //       '${_date.year} - ${_date.month} - ${_date.day}',
-            //       style: TextStyle(
-            //         fontSize: 24.0,
-            //         color: Theme.of(context).primaryColor,
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ),
           const SizedBox(height: 72),
         ],
       ),
       actions: [
-        ElevatedButton(
+        SharedSendButton(
           onPressed: () {
             if (_stuffTextController.text.isNotEmpty) {
               context.read<ExpirableItemBloc>().add(
@@ -128,8 +74,7 @@ class _EditExpirableItemDialogState extends State<EditExpirableItemDialog> {
             }
             Navigator.pop(context);
           },
-          child: Text(AppString.commonSend.getL10n(context)),
-        )
+        ),
       ],
     );
   }

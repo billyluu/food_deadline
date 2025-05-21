@@ -6,10 +6,9 @@ class _SettingLanguageWidget extends StatelessWidget {
     final languages = AppLocale.values
         .map((element) => DropdownMenuItem<AppLocale>(
             value: element,
-            child: CommonText(
+            child: SharedCommonText(
               text: element.name,
-              style: CommonTextStyle.textStyle(
-                  color: Theme.of(context).colorScheme.onTertiary),
+              style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
             )))
         .toList();
 
@@ -17,10 +16,9 @@ class _SettingLanguageWidget extends StatelessWidget {
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
-          CommonText(
+          SharedCommonText(
             text: AppString.settingScreenLanguage.getL10n(context),
-            style: CommonTextStyle.textStyle(
-                color: Theme.of(context).colorScheme.onTertiary),
+            style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
           ),
           const SizedBox(width: 24.0),
           BlocBuilder<AppSettingsBloc, AppSettingsState>(
@@ -30,9 +28,7 @@ class _SettingLanguageWidget extends StatelessWidget {
               items: languages,
               onChanged: (appLocale) {
                 if (appLocale != null) {
-                  context
-                      .read<AppSettingsBloc>()
-                      .add(AppSettingsUpdateLocaleEvent(appLocale: appLocale));
+                  context.read<AppSettingsBloc>().add(AppSettingsUpdateLocaleEvent(appLocale: appLocale));
                 }
               },
             ),

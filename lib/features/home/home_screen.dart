@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';
-
-import 'widgets/stuff_deadline_card_item.dart';
+import 'package:food_deadline/features/home/widgets/expirable_item_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,18 +35,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   for (final stuff in stuffs) ...[
-                    StuffDeadlineCardItem(
+                    ExpiredItemCard(
                       title: stuff.name,
                       deadline: stuff.deadline.toString(),
                       disabled: stuff.isExpired,
-                      onDelete: () {
-                        stuffBloc.add(ExpirableItemDeleteEvent(expirableItem: stuff));
-                      },
+                      onDelete: () => stuffBloc.add(ExpirableItemDeleteEvent(expirableItem: stuff)),
                     ),
-                    if (stuff != stuffs.last)
+                    if (stuff != stuffs.last) ...[
                       const SizedBox(
                         height: 6.0,
                       )
+                    ]
                   ]
                 ],
               ),

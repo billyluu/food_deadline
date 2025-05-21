@@ -7,7 +7,7 @@ import 'package:food_deadline/features/dialog/edit_expirable_item_dialog.dart';
 import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';
 import 'package:food_deadline/features/home/home_screen.dart';
 import 'package:food_deadline/features/settings/settings_screen.dart';
-import 'package:food_deadline/shared/widgets/common_text.dart';
+import 'package:food_deadline/shared/widgets/shared_common_text.dart';
 
 enum MainBottomNavType {
   home(
@@ -60,8 +60,7 @@ class MainScreenState extends State<MainScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ExpirableItemBloc>(
-          create: (context) => ExpirableItemBloc(realmHelper: RealmHelper())
-            ..add(ExpirableItemInitialEvent()),
+          create: (context) => ExpirableItemBloc(realmHelper: RealmHelper())..add(ExpirableItemInitialEvent()),
         ),
       ],
       child: Scaffold(
@@ -75,10 +74,8 @@ class MainScreenState extends State<MainScreen> {
           builder: (context, state) {
             if (state is ExpirableItemSuccess) {
               final stuffs = state.expirableItem;
-              final expired = stuffs
-                  .where((element) =>
-                      element.deadline < DateTime.now().millisecondsSinceEpoch)
-                  .length;
+              final expired =
+                  stuffs.where((element) => element.deadline < DateTime.now().millisecondsSinceEpoch).length;
               return Column(
                 children: [
                   if (_currentIndex == MainBottomNavType.home.index)
@@ -113,10 +110,9 @@ class MainScreenState extends State<MainScreen> {
             children: [
               for (var i = 0; i < MainBottomNavType.values.length; i++) ...[
                 ElevatedButton.icon(
-                  label: CommonText(
+                  label: SharedCommonText(
                     text: MainBottomNavType.values[i].title.getL10n(context),
-                    style: CommonTextStyle.textStyle(
-                        color: Theme.of(context).colorScheme.onPrimary),
+                    style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onPrimary),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
@@ -133,28 +129,22 @@ class MainScreenState extends State<MainScreen> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton:
-            BlocBuilder<ExpirableItemBloc, ExpirableItemState>(
-          builder: (context, state) {
-            return FloatingActionButton(
-              shape: const CircleBorder(),
-              onPressed: () {
-                // await Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (_) => BlocProvider.value(
-                //       value: context.read<StuffBloc>(),
-                //       child: const EditStuffMainScreen(),
-                //     ),
-                //   ),
-                // );
-                showDialog(
-                    context: context,
-                    builder: (context) => const EditExpirableItemDialog());
-              },
-              child: const Icon(Icons.add),
-            );
-          },
-        ),
+        floatingActionButton: Builder(builder: (context) {
+          final expirableItemBloc = context.read<ExpirableItemBloc>();
+          return FloatingActionButton(
+            shape: const CircleBorder(),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => BlocProvider.value(
+                  value: expirableItemBloc,
+                  child: const EditExpirableItemDialog(),
+                ),
+              );
+            },
+            child: const Icon(Icons.add),
+          );
+        }),
       ),
     );
   }
@@ -186,24 +176,21 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CommonText(
+          SharedCommonText(
             text: date.toYYYYMMDD(),
-            style: CommonTextStyle.textStyleLarge(
-                color: Theme.of(context).colorScheme.onPrimary),
+            style: CommonTextStyle.textStyleLarge(color: Theme.of(context).colorScheme.onPrimary),
           ),
           const SizedBox(height: 8),
           Row(
             children: [
-              CommonText(
+              SharedCommonText(
                 text: '${AppString.homeScreenTotal.getL10n(context)}$total',
-                style: CommonTextStyle.textStyle(
-                    color: Theme.of(context).colorScheme.onPrimary),
+                style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onPrimary),
               ),
               const SizedBox(width: 16),
-              CommonText(
+              SharedCommonText(
                 text: '${AppString.homeScreenExpired.getL10n(context)}$expired',
-                style: CommonTextStyle.textStyle(
-                    color: Theme.of(context).colorScheme.onPrimary),
+                style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onPrimary),
               ),
             ],
           )

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CommonText extends StatelessWidget {
-  const CommonText({
+class SharedCommonText extends StatelessWidget {
+  const SharedCommonText({
     required this.text,
     this.style,
     this.textAlign,

@@ -7,19 +7,16 @@ class _SettingNotifyWidget extends StatelessWidget {
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
-          CommonText(
+          SharedCommonText(
             text: AppString.settingScreenNotificationSwitch.getL10n(context),
-            style: CommonTextStyle.textStyle(
-                color: Theme.of(context).colorScheme.onTertiary),
+            style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
           ),
           const SizedBox(width: 24.0),
           BlocBuilder<AppSettingsBloc, AppSettingsState>(
             builder: (context, state) => Switch(
                 value: state.notificationsEnabled,
                 onChanged: (value) {
-                  context.read<AppSettingsBloc>().add(
-                      AppSettingsUpdateNotificationsEvent(
-                          notificationsEnabled: value));
+                  context.read<AppSettingsBloc>().add(AppSettingsUpdateNotificationsEvent(notificationsEnabled: value));
                 }),
           ),
         ],

@@ -15,8 +15,7 @@ class SharedPreferenceHelper {
   static Future<ThemeMode> getThemeMode() async {
     final prefs = await SharedPreferences.getInstance();
     final appThemeMode = ThemeMode.values.firstWhere((element) {
-      return element.name ==
-          (prefs.getString(_themeModeKey) ?? ThemeMode.system.name);
+      return element.name == (prefs.getString(_themeModeKey) ?? ThemeMode.system.name);
     });
     return appThemeMode;
   }
@@ -39,8 +38,7 @@ class SharedPreferenceHelper {
   static Future<AppLocale> getLocale() async {
     final prefs = await SharedPreferences.getInstance();
     final appLocale = AppLocale.values.where((element) {
-          return element.name ==
-              (prefs.getString(_localeKey) ?? AppLocale.zhTW.name);
+          return element.name == (prefs.getString(_localeKey) ?? AppLocale.zhTW.name);
         }).firstOrNull ??
         AppLocale.zhTW;
     return appLocale;

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/core/extension/datetime_extension.dart';
-import 'package:food_deadline/shared/widgets/common_text.dart';
+import 'package:food_deadline/shared/widgets/shared_common_text.dart';
+import 'package:food_deadline/shared/widgets/shared_edit_icon_button.dart';
 
-class StuffDeadlineCardItem extends StatefulWidget {
-  const StuffDeadlineCardItem({
+class ExpiredItemCard extends StatefulWidget {
+  const ExpiredItemCard({
     required this.title,
     required this.deadline,
     this.disabled = false,
@@ -20,11 +21,13 @@ class StuffDeadlineCardItem extends StatefulWidget {
   final Function()? onDelete;
 
   @override
-  State<StuffDeadlineCardItem> createState() => _StuffDeadlineCardItemState();
+  State<ExpiredItemCard> createState() => _ExpiredItemCardState();
 }
 
-class _StuffDeadlineCardItemState extends State<StuffDeadlineCardItem>
+class _ExpiredItemCardState extends State<ExpiredItemCard>
     with SingleTickerProviderStateMixin {
+  final GlobalKey _cardKey = GlobalKey();
+  var mainHeight = 0.0;
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -41,6 +44,16 @@ class _StuffDeadlineCardItemState extends State<StuffDeadlineCardItem>
     _animation = Tween(begin: 0.0, end: _maxLeft).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_cardKey.currentContext != null) {
+        final RenderBox box =
+            _cardKey.currentContext!.findRenderObject() as RenderBox;
+        setState(() {
+          mainHeight = box.size.height;
+        });
+      }
+    });
   }
 
   void _moveLeft() {
@@ -59,22 +72,22 @@ class _StuffDeadlineCardItemState extends State<StuffDeadlineCardItem>
         clipBehavior: Clip.none,
         children: [
           GestureDetector(
-            onTap: widget.disabled
-                ? null
-                : () {
-                    widget.onDelete?.call();
-                    _resetPosition();
-                  },
+            onTap: () {
+              widget.onDelete?.call();
+              _resetPosition();
+            },
             child: Align(
               alignment: Alignment.centerRight,
               child: Container(
+                alignment: Alignment.centerRight,
                 width: 150.0,
+                height: mainHeight,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                   color: Colors.red,
                 ),
                 padding: const EdgeInsets.all(12.0),
-                child: CommonText(
+                child: SharedCommonText(
                   text: AppString.commonDelete.getL10n(context),
                   textAlign: TextAlign.end,
                   style: CommonTextStyle.textStyle(color: Colors.white),
@@ -83,21 +96,20 @@ class _StuffDeadlineCardItemState extends State<StuffDeadlineCardItem>
             ),
           ),
           GestureDetector(
-            onHorizontalDragUpdate: widget.disabled
-                ? null
-                : (details) {
-                    if (details.primaryDelta! < 0) {
-                      _moveLeft();
-                    } else if (details.primaryDelta! > 0) {
-                      _resetPosition();
-                    }
-                  },
+            onHorizontalDragUpdate: (details) {
+              if (details.primaryDelta! < 0) {
+                _moveLeft();
+              } else if (details.primaryDelta! > 0) {
+                _resetPosition();
+              }
+            },
             child: AnimatedBuilder(
               animation: _animation,
               builder: (context, child) {
                 return Transform.translate(
                   offset: Offset(_animation.value, 0),
                   child: Container(
+                    key: _cardKey,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: Theme.of(context).colorScheme.tertiary,
@@ -108,7 +120,7 @@ class _StuffDeadlineCardItemState extends State<StuffDeadlineCardItem>
                       children: [
                         Expanded(
                           flex: 2,
-                          child: CommonText(
+                          child: SharedCommonText(
                             text: widget.title,
                             style: CommonTextStyle.textStyle(
                               color: Theme.of(context).colorScheme.onTertiary,
@@ -117,7 +129,7 @@ class _StuffDeadlineCardItemState extends State<StuffDeadlineCardItem>
                         ),
                         Expanded(
                           flex: 1,
-                          child: CommonText(
+                          child: SharedCommonText(
                             text: DateTime.fromMillisecondsSinceEpoch(
                               int.parse(widget.deadline),
                             ).toYYYYMMDD(),
@@ -125,6 +137,9 @@ class _StuffDeadlineCardItemState extends State<StuffDeadlineCardItem>
                               color: Theme.of(context).colorScheme.onTertiary,
                             ),
                           ),
+                        ),
+                        SharedEditIconButton(
+                          onPressed: () {},
                         ),
                       ],
                     ),

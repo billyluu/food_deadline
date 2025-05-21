@@ -1,10 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
 
 class AppLocalizations {
   final Locale locale;
+
   AppLocalizations(this.locale);
 
   static AppLocalizations of(BuildContext context) {

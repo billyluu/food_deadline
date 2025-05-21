@@ -1,10 +1,8 @@
-
 import 'package:food_deadline/core/constants/enums/app_task.dart';
 import 'package:food_deadline/core/constants/shared_preference_helper.dart';
 import 'package:workmanager/workmanager.dart';
 
 class WorkManagerHelper {
-
   static init() {
     Workmanager().initialize(_callbackDispatcher, isInDebugMode: true);
   }
@@ -23,7 +21,5 @@ class WorkManagerHelper {
     });
   }
 
-  static void taskCallback(Function(String task) callback) {
-
-  }
+  static void taskCallback(Function(String task) callback) {}
 }

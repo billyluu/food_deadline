@@ -6,10 +6,9 @@ class _SettingThemeWidget extends StatelessWidget {
     final themeItems = ThemeMode.values
         .map((element) => DropdownMenuItem<ThemeMode>(
             value: element,
-            child: CommonText(
+            child: SharedCommonText(
               text: element.name,
-              style: CommonTextStyle.textStyle(
-                  color: Theme.of(context).colorScheme.onTertiary),
+              style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
             )))
         .toList();
 
@@ -17,10 +16,9 @@ class _SettingThemeWidget extends StatelessWidget {
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
-          CommonText(
+          SharedCommonText(
             text: AppString.settingScreenThemeMode.getL10n(context),
-            style: CommonTextStyle.textStyle(
-                color: Theme.of(context).colorScheme.onTertiary),
+            style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
           ),
           const SizedBox(width: 24.0),
           BlocBuilder<AppSettingsBloc, AppSettingsState>(
@@ -30,9 +28,7 @@ class _SettingThemeWidget extends StatelessWidget {
               items: themeItems,
               onChanged: (themeMode) {
                 if (themeMode != null) {
-                  context
-                      .read<AppSettingsBloc>()
-                      .add(AppSettingsUpdateThemeEvent(theme: themeMode));
+                  context.read<AppSettingsBloc>().add(AppSettingsUpdateThemeEvent(theme: themeMode));
                 }
               },
             ),

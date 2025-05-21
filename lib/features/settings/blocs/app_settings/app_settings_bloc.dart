@@ -17,28 +17,24 @@ class AppSettingsBloc extends Bloc<AppSettingsEvent, AppSettingsState> {
     on<AppSettingsUpdateNotificationsEvent>((event, emit) => _updateNotifications(event, emit));
   }
 
-  Future<void> _loadAppSettings(AppSettingsLoadingEvent event,
-      Emitter<AppSettingsState> emit) async {
+  Future<void> _loadAppSettings(AppSettingsLoadingEvent event, Emitter<AppSettingsState> emit) async {
     final locale = await SharedPreferenceHelper.getLocale();
     final theme = await SharedPreferenceHelper.getThemeMode();
     final notificationsEnabled = await SharedPreferenceHelper.getNotificationsEnabled();
     emit(state.copyWith(appLocale: locale, theme: theme, notificationsEnabled: notificationsEnabled));
   }
 
-  Future<void> _updateLocale(AppSettingsUpdateLocaleEvent event,
-      Emitter<AppSettingsState> emit) async {
+  Future<void> _updateLocale(AppSettingsUpdateLocaleEvent event, Emitter<AppSettingsState> emit) async {
     SharedPreferenceHelper.setLocale(event.appLocale.name);
     emit(state.copyWith(appLocale: event.appLocale));
   }
 
-  Future<void> _updateTheme(AppSettingsUpdateThemeEvent event,
-      Emitter<AppSettingsState> emit) async {
+  Future<void> _updateTheme(AppSettingsUpdateThemeEvent event, Emitter<AppSettingsState> emit) async {
     SharedPreferenceHelper.setThemeMode(event.theme);
     emit(state.copyWith(theme: event.theme));
   }
 
-  Future<void> _updateNotifications(AppSettingsUpdateNotificationsEvent event,
-      Emitter<AppSettingsState> emit) async {
+  Future<void> _updateNotifications(AppSettingsUpdateNotificationsEvent event, Emitter<AppSettingsState> emit) async {
     SharedPreferenceHelper.setNotificationsEnabled(event.notificationsEnabled);
     emit(state.copyWith(notificationsEnabled: event.notificationsEnabled));
   }
