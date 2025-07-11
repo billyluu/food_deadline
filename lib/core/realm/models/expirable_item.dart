@@ -1,4 +1,5 @@
 import 'package:realm/realm.dart';
+import 'package:food_deadline/core/utils/date_time_helper.dart';
 
 part 'expirable_item.realm.dart';
 
@@ -8,12 +9,12 @@ class _ExpirableItem {
   @PrimaryKey()
   late ObjectId id;
   late String name;
-  late int deadline;
+  late int expiryDate;
 
-  bool get isExpired => DateTime.now().millisecondsSinceEpoch > deadline;
+  bool get isExpired => DateTimeHelper.isExpired(expiryDate);
 }
 
 extension ExpirableItemExtension on SchemaObject {
-  ExpirableItem newItem(String name, int deadline) =>
-      ExpirableItem(ObjectId(), name, deadline);
+  ExpirableItem newItem(String name, int expiryDate) =>
+      ExpirableItem(ObjectId(), name, expiryDate);
 }

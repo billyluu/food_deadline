@@ -6,7 +6,7 @@ import 'package:food_deadline/core/constants/app_localizations.dart';
 import 'package:food_deadline/core/constants/color.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
 import 'package:food_deadline/core/di/service_locator.dart';
-import 'package:food_deadline/features/main/main_screen.dart';
+import 'package:food_deadline/features/splash/splash_screen.dart';
 import 'package:food_deadline/features/settings/blocs/app_settings/app_settings_bloc.dart';
 
 class App extends StatelessWidget {
@@ -16,8 +16,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AppSettingsBloc>(create: (context) => getIt<AppSettingsBloc>()),
-        BlocProvider<NotificationBloc>(create: (context) => getIt<NotificationBloc>()),
+        BlocProvider<AppSettingsBloc>(
+            create: (context) => getIt<AppSettingsBloc>()),
+        BlocProvider<NotificationBloc>(
+            create: (context) => getIt<NotificationBloc>()),
       ],
       child: BlocBuilder<AppSettingsBloc, AppSettingsState>(
         builder: (context, state) {
@@ -81,7 +83,7 @@ class App extends StatelessWidget {
               ),
             ),
             themeMode: state.theme,
-            home: const MainScreen(),
+            home: const SplashScreen(),
           );
         },
       ),

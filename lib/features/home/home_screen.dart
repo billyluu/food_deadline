@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/core/extension/datetime_extension.dart';
+import 'package:food_deadline/core/realm/models/expirable_item.dart';
+import 'package:food_deadline/core/utils/date_time_helper.dart';
 import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';
 import 'package:food_deadline/features/home/widgets/expirable_item_card.dart';
 import 'package:food_deadline/shared/widgets/error_widget.dart';
@@ -36,13 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
           case ExpirableItemSuccess():
             final expirableItems = state.expirableItem;
             final expired = expirableItems
-                .where((element) => element.deadline < DateTime.now().millisecondsSinceEpoch)
+                .where((element) => DateTimeHelper.isExpired(element.expiryDate))
                 .length;
             
             return Column(
               children: [
                 _Header(
-                  date: DateTime.now(),
+                  date: DateTimeHelper.now,
                   total: expirableItems.length,
                   expired: expired,
                 ),
@@ -78,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _BuildItemList extends StatelessWidget {
-  final List expirableItems;
+  final List<ExpirableItem> expirableItems;
   final ExpirableItemBloc expirableItemBloc;
 
   const _BuildItemList({
@@ -97,7 +99,7 @@ class _BuildItemList extends StatelessWidget {
             for (final expirableItem in expirableItems) ...[
               ExpiredItemCard(
                 title: expirableItem.name,
-                deadline: expirableItem.deadline.toString(),
+                expiryDate: expirableItem.expiryDate.toString(),
                 disabled: expirableItem.isExpired,
                 onDelete: () => expirableItemBloc.add(ExpirableItemDeleteEvent(expirableItem: expirableItem)),
               ),

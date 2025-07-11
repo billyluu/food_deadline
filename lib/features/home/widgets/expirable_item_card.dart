@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/core/extension/datetime_extension.dart';
+import 'package:food_deadline/core/utils/date_time_helper.dart';
 import 'package:food_deadline/shared/widgets/shared_common_text.dart';
 import 'package:food_deadline/shared/widgets/shared_edit_icon_button.dart';
 
 class ExpiredItemCard extends StatefulWidget {
   const ExpiredItemCard({
     required this.title,
-    required this.deadline,
+    required this.expiryDate,
     this.disabled = false,
     this.onPressed,
     this.onDelete,
@@ -15,7 +16,7 @@ class ExpiredItemCard extends StatefulWidget {
   });
 
   final String title;
-  final String deadline;
+  final String expiryDate;
   final bool disabled;
   final Function()? onPressed;
   final Function()? onDelete;
@@ -130,9 +131,9 @@ class _ExpiredItemCardState extends State<ExpiredItemCard>
                         Expanded(
                           flex: 1,
                           child: SharedCommonText(
-                            text: DateTime.fromMillisecondsSinceEpoch(
-                              int.parse(widget.deadline),
-                            ).toYYYYMMDD(),
+                            text: DateTimeHelper.formatMillisecondsToDate(
+                              int.parse(widget.expiryDate),
+                            ),
                             style: CommonTextStyle.textStyle(
                               color: Theme.of(context).colorScheme.onTertiary,
                             ),

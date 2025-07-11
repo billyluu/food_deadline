@@ -12,11 +12,11 @@ class ExpirableItem extends _ExpirableItem
   ExpirableItem(
     ObjectId id,
     String name,
-    int deadline,
+    int expiryDate,
   ) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
-    RealmObjectBase.set(this, 'deadline', deadline);
+    RealmObjectBase.set(this, 'expiryDate', expiryDate);
   }
 
   ExpirableItem._();
@@ -32,9 +32,9 @@ class ExpirableItem extends _ExpirableItem
   set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
-  int get deadline => RealmObjectBase.get<int>(this, 'deadline') as int;
+  int get expiryDate => RealmObjectBase.get<int>(this, 'expiryDate') as int;
   @override
-  set deadline(int value) => RealmObjectBase.set(this, 'deadline', value);
+  set expiryDate(int value) => RealmObjectBase.set(this, 'expiryDate', value);
 
   @override
   Stream<RealmObjectChanges<ExpirableItem>> get changes =>
@@ -52,7 +52,7 @@ class ExpirableItem extends _ExpirableItem
     return <String, dynamic>{
       'id': id.toEJson(),
       'name': name.toEJson(),
-      'deadline': deadline.toEJson(),
+      'expiryDate': expiryDate.toEJson(),
     };
   }
 
@@ -63,12 +63,12 @@ class ExpirableItem extends _ExpirableItem
       {
         'id': EJsonValue id,
         'name': EJsonValue name,
-        'deadline': EJsonValue deadline,
+        'expiryDate': EJsonValue expiryDate,
       } =>
         ExpirableItem(
           fromEJson(id),
           fromEJson(name),
-          fromEJson(deadline),
+          fromEJson(expiryDate),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -81,7 +81,7 @@ class ExpirableItem extends _ExpirableItem
         ObjectType.realmObject, ExpirableItem, 'ExpirableItem', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
-      SchemaProperty('deadline', RealmPropertyType.int),
+      SchemaProperty('expiryDate', RealmPropertyType.int),
     ]);
   }();
 

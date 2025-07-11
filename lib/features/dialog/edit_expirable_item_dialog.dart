@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/core/realm/models/expirable_item.dart';
+import 'package:food_deadline/core/utils/date_time_helper.dart';
 import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';
 import 'package:food_deadline/shared/widgets/shared_close_icon_button.dart';
 import 'package:food_deadline/shared/widgets/shared_send_button.dart';
@@ -16,7 +17,7 @@ class EditExpirableItemDialog extends StatefulWidget {
 
 class _EditExpirableItemDialogState extends State<EditExpirableItemDialog> {
   final _expirableItemTextController = TextEditingController();
-  DateTime _date = DateTime.now();
+  DateTime _date = DateTimeHelper.now;
 
   void updateDate(DateTime newDate) {
     setState(() => _date = newDate);
@@ -51,7 +52,7 @@ class _EditExpirableItemDialogState extends State<EditExpirableItemDialog> {
           ),
           const SizedBox(height: 36),
           DatePickerField(
-            initialDate: DateTime.now(),
+            initialDate: DateTimeHelper.now,
             onDateChanged: (date) {
               _date = date;
             },
@@ -67,7 +68,7 @@ class _EditExpirableItemDialogState extends State<EditExpirableItemDialog> {
                     ExpirableItemAddEvent(
                       expirableItem: ExpirableItem.schema.newItem(
                         _expirableItemTextController.text,
-                        _date.millisecondsSinceEpoch,
+                        DateTimeHelper.toMilliseconds(_date),
                       ),
                     ),
                   );
