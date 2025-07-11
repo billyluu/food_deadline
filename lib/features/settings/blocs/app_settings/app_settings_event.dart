@@ -28,3 +28,11 @@ final class AppSettingsUpdateNotificationsEvent extends AppSettingsEvent {
 
   final bool notificationsEnabled;
 }
+
+final class AppSettingsUpdateNotificationDaysEvent extends AppSettingsEvent {
+  AppSettingsUpdateNotificationDaysEvent({
+    required this.notificationDaysBeforeExpiry,
+  });
+
+  final int notificationDaysBeforeExpiry;
+}

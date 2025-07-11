@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_deadline/core/constants/app_constants.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,6 +7,7 @@ class SharedPreferenceHelper {
   static const String _themeModeKey = 'theme_mode';
   static const String _notificationsEnabledKey = 'notifications_enabled';
   static const String _localeKey = 'locale';
+  static const String _notificationDaysBeforeExpiryKey = 'notification_days_before_expiry';
 
   static Future<void> setThemeMode(ThemeMode mode) async {
     final prefs = await SharedPreferences.getInstance();
@@ -42,5 +44,15 @@ class SharedPreferenceHelper {
         }).firstOrNull ??
         AppLocale.zhTW;
     return appLocale;
+  }
+
+  static Future<void> setNotificationDaysBeforeExpiry(int days) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_notificationDaysBeforeExpiryKey, days);
+  }
+
+  static Future<int> getNotificationDaysBeforeExpiry() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_notificationDaysBeforeExpiryKey) ?? AppConstants.defaultNotificationDays;
   }
 }

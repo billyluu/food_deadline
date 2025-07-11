@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_deadline/core/constants/app_string.dart';
-import 'package:food_deadline/core/extension/datetime_extension.dart';
-import 'package:food_deadline/core/realm/realm_helper.dart';
+import 'package:food_deadline/core/di/service_locator.dart';
 import 'package:food_deadline/features/dialog/edit_expirable_item_dialog.dart';
 import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';
 import 'package:food_deadline/features/home/home_screen.dart';
@@ -13,24 +12,19 @@ enum MainBottomNavType {
   home(
     title: AppString.bottomNavBarHome,
     icon: Icons.home,
-    screen: HomeScreen(),
   ),
   settings(
     title: AppString.bottomNavBarSetting,
     icon: Icons.settings,
-    screen: SizedBox(),
-  ),
-  ;
+  );
 
   const MainBottomNavType({
     required this.title,
     required this.icon,
-    required this.screen,
   });
 
   final AppString title;
   final IconData icon;
-  final Widget screen;
 }
 
 class MainScreen extends StatefulWidget {
@@ -42,160 +36,94 @@ class MainScreen extends StatefulWidget {
 
 class MainScreenState extends State<MainScreen> {
   var _currentIndex = 0;
-  final now = DateTime.now();
+  late final ExpirableItemBloc _expirableItemBloc;
 
   @override
   void initState() {
     super.initState();
+    _expirableItemBloc = getIt<ExpirableItemBloc>()..add(ExpirableItemInitialEvent());
+  }
+
+  @override
+  void dispose() {
+    _expirableItemBloc.close();
+    super.dispose();
   }
 
   void onItemTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    setState(() => _currentIndex = index);
+  }
+
+  Widget _getCurrentScreen() {
+    switch (_currentIndex) {
+      case 0:
+        return BlocProvider<ExpirableItemBloc>.value(
+          value: _expirableItemBloc,
+          child: const HomeScreen(),
+        );
+      case 1:
+        return const SettingsScreen();
+      default:
+        return BlocProvider<ExpirableItemBloc>.value(
+          value: _expirableItemBloc,
+          child: const HomeScreen(),
+        );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<ExpirableItemBloc>(
-          create: (context) => ExpirableItemBloc(realmHelper: RealmHelper())..add(ExpirableItemInitialEvent()),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(15),
+        child: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
-      ],
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(15),
-          child: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-        body: BlocBuilder<ExpirableItemBloc, ExpirableItemState>(
-          builder: (context, state) {
-            if (state is ExpirableItemSuccess) {
-              final stuffs = state.expirableItem;
-              final expired =
-                  stuffs.where((element) => element.deadline < DateTime.now().millisecondsSinceEpoch).length;
-              return Column(
-                children: [
-                  if (_currentIndex == MainBottomNavType.home.index)
-                    _Header(
-                      date: now,
-                      total: stuffs.length,
-                      expired: expired,
-                    ),
-                  Expanded(
-                    child: IndexedStack(
-                      index: _currentIndex,
-                      children: const [
-                        HomeScreen(),
-                        SettingsScreen(), // 設定畫面
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            }
-
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        ),
-        bottomNavigationBar: BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          color: Theme.of(context).colorScheme.primary,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              for (var i = 0; i < MainBottomNavType.values.length; i++) ...[
-                ElevatedButton.icon(
-                  label: SharedCommonText(
-                    text: MainBottomNavType.values[i].title.getL10n(context),
-                    style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onPrimary),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                  ),
-                  onPressed: () => onItemTapped(i),
-                  icon: Icon(
-                    MainBottomNavType.values[i].icon,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Builder(builder: (context) {
-          final expirableItemBloc = context.read<ExpirableItemBloc>();
-          return FloatingActionButton(
-            shape: const CircleBorder(),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => BlocProvider.value(
-                  value: expirableItemBloc,
-                  child: const EditExpirableItemDialog(),
-                ),
-              );
-            },
-            child: const Icon(Icons.add),
-          );
-        }),
       ),
-    );
-  }
-}
-
-class _Header extends StatelessWidget {
-  const _Header({
-    required this.date,
-    required this.total,
-    required this.expired,
-  });
-
-  final DateTime date;
-  final int total;
-  final int expired;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
+      body: _getCurrentScreen(),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
         color: Theme.of(context).colorScheme.primary,
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(16),
-          bottomRight: Radius.circular(16),
-        ),
-      ),
-      padding: const EdgeInsets.all(16.0),
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SharedCommonText(
-            text: date.toYYYYMMDD(),
-            style: CommonTextStyle.textStyleLarge(color: Theme.of(context).colorScheme.onPrimary),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              SharedCommonText(
-                text: '${AppString.homeScreenTotal.getL10n(context)}$total',
-                style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onPrimary),
-              ),
-              const SizedBox(width: 16),
-              SharedCommonText(
-                text: '${AppString.homeScreenExpired.getL10n(context)}$expired',
-                style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onPrimary),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            for (var i = 0; i < MainBottomNavType.values.length; i++) ...[
+              ElevatedButton.icon(
+                label: SharedCommonText(
+                  text: MainBottomNavType.values[i].title.getI18n(context),
+                  style: CommonTextStyle.textStyle(
+                      color: Theme.of(context).colorScheme.onPrimary),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                ),
+                onPressed: () => onItemTapped(i),
+                icon: Icon(
+                  MainBottomNavType.values[i].icon,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
             ],
-          )
-        ],
+          ],
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: _currentIndex == 0
+          ? FloatingActionButton(
+              shape: const CircleBorder(),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (dialogContext) => BlocProvider<ExpirableItemBloc>.value(
+                    value: _expirableItemBloc, // 使用同一個 BLoC 實例
+                    child: const EditExpirableItemDialog(),
+                  ),
+                );
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 }

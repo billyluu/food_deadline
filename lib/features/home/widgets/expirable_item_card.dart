@@ -88,7 +88,7 @@ class _ExpiredItemCardState extends State<ExpiredItemCard>
                 ),
                 padding: const EdgeInsets.all(12.0),
                 child: SharedCommonText(
-                  text: AppString.commonDelete.getL10n(context),
+                  text: AppString.commonDelete.getI18n(context),
                   textAlign: TextAlign.end,
                   style: CommonTextStyle.textStyle(color: Colors.white),
                 ),

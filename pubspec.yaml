@@ -47,6 +47,7 @@ dependencies:
   intl: ^0.19.0
   workmanager: ^0.5.2
   flutter_local_notifications: ^18.0.1
+  get_it: ^8.0.2
 
 dev_dependencies:
   flutter_test:
@@ -77,8 +78,8 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/l10n/zh.json
-    - assets/l10n/en.json
+    - resource/i18n/zh.json
+    - resource/i18n/en.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -18,3 +18,13 @@ final class ExpirableItemSuccess extends ExpirableItemState {
 
   final List<ExpirableItem> expirableItem;
 }
+
+final class ExpirableItemError extends ExpirableItemState {
+  ExpirableItemError({
+    required this.exception,
+    this.expirableItem,
+  });
+
+  final AppException exception;
+  final List<ExpirableItem>? expirableItem;
+}

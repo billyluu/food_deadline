@@ -14,6 +14,6 @@ class _ExpirableItem {
 }
 
 extension ExpirableItemExtension on SchemaObject {
-  ExpirableItem newStuff(String name, int deadline) =>
+  ExpirableItem newItem(String name, int deadline) =>
       ExpirableItem(ObjectId(), name, deadline);
 }

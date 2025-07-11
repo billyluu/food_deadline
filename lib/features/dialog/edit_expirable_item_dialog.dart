@@ -15,7 +15,7 @@ class EditExpirableItemDialog extends StatefulWidget {
 }
 
 class _EditExpirableItemDialogState extends State<EditExpirableItemDialog> {
-  final _stuffTextController = TextEditingController();
+  final _expirableItemTextController = TextEditingController();
   DateTime _date = DateTime.now();
 
   void updateDate(DateTime newDate) {
@@ -39,10 +39,10 @@ class _EditExpirableItemDialogState extends State<EditExpirableItemDialog> {
           ),
           TextField(
             keyboardType: TextInputType.text,
-            controller: _stuffTextController,
+            controller: _expirableItemTextController,
             decoration: InputDecoration(
-              label: Text(AppString.editExpirableItemScreenName.getL10n(context)),
-              hintText: AppString.editExpirableItemScreenInputPlaceHolder.getL10n(context),
+              label: Text(AppString.editExpirableItemScreenName.getI18n(context)),
+              hintText: AppString.editExpirableItemScreenInputPlaceHolder.getI18n(context),
               hintStyle: TextStyle(
                 color: Theme.of(context).hintColor,
                 fontSize: 12,
@@ -62,11 +62,11 @@ class _EditExpirableItemDialogState extends State<EditExpirableItemDialog> {
       actions: [
         SharedSendButton(
           onPressed: () {
-            if (_stuffTextController.text.isNotEmpty) {
+            if (_expirableItemTextController.text.isNotEmpty) {
               context.read<ExpirableItemBloc>().add(
                     ExpirableItemAddEvent(
-                      expirableItem: ExpirableItem.schema.newStuff(
-                        _stuffTextController.text,
+                      expirableItem: ExpirableItem.schema.newItem(
+                        _expirableItemTextController.text,
                         _date.millisecondsSinceEpoch,
                       ),
                     ),

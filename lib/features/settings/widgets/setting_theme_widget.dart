@@ -17,7 +17,7 @@ class _SettingThemeWidget extends StatelessWidget {
       child: Row(
         children: [
           SharedCommonText(
-            text: AppString.settingScreenThemeMode.getL10n(context),
+            text: AppString.settingScreenThemeMode.getI18n(context),
             style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
           ),
           const SizedBox(width: 24.0),

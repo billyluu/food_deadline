@@ -11,6 +11,8 @@
   "homeScreen_expired": "Expired: ",
   "settingScreen_themeMode": "ThemeMode: ",
   "settingScreen_notificationSwitch": "Notification Switch: ",
+  "settingScreen_notificationDays": "Notification Time: ",
+  "settingScreen_daysBeforeExpiry": "{0} days before",
   "settingScreen_language": "Language: ",
   "editExpirableItemScreen_add": "Create New Item",
   "editExpirableItemScreen_name": "Name: ",

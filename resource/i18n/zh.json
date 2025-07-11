@@ -11,6 +11,8 @@
   "homeScreen_expired": "過期：",
   "settingScreen_themeMode": "主題模式：",
   "settingScreen_notificationSwitch": "通知開關：",
+  "settingScreen_notificationDays": "通知時間：",
+  "settingScreen_daysBeforeExpiry": "{0}天前",
   "settingScreen_language": "語系：",
   "editExpirableItemScreen_add": "新增物品",
   "editExpirableItemScreen_name": "物品名稱：",

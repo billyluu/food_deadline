@@ -1,5 +1,7 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:food_deadline/core/constants/app_localizations.dart';
+
 
 enum AppString {
   appName(key: 'app_name'),
@@ -14,21 +16,16 @@ enum AppString {
   homeScreenExpired(key: 'homeScreen_expired'),
   settingScreenThemeMode(key: 'settingScreen_themeMode'),
   settingScreenNotificationSwitch(key: 'settingScreen_notificationSwitch'),
-  settingScreenNotificationDays(key: 'settingScreen_notificationDays'),
-  settingScreenDaysBeforeExpiry(key: 'settingScreen_daysBeforeExpiry'),
   settingScreenLanguage(key: 'settingScreen_language'),
   editExpirableItemScreenAdd(key: 'editExpirableItemScreen_add'),
   editExpirableItemScreenName(key: 'editExpirableItemScreen_name'),
   editExpirableItemScreenInputPlaceHolder(key: 'editExpirableItemScreen_input_placeHolder'),
   ;
 
-  const AppString({
-    required this.key,
-  });
-
+  const AppString({ required this.key });
   final String key;
 
-  String getI18n(BuildContext context, [List<String>? args]) {
+  String getL10n(BuildContext context, [List<String>? args]) {
     return AppLocalizations.of(context).translate(key, args);
   }
 }

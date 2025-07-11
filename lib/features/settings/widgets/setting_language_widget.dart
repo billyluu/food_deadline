@@ -17,7 +17,7 @@ class _SettingLanguageWidget extends StatelessWidget {
       child: Row(
         children: [
           SharedCommonText(
-            text: AppString.settingScreenLanguage.getL10n(context),
+            text: AppString.settingScreenLanguage.getI18n(context),
             style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
           ),
           const SizedBox(width: 24.0),

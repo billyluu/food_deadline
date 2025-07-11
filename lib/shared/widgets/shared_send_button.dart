@@ -13,7 +13,7 @@ class SharedSendButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text(AppString.commonSend.getL10n(context)),
+      child: Text(AppString.commonSend.getI18n(context)),
     );
   }
 }
