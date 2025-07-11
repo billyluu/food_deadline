@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 void main() async {
-  final file = File('resources/i18n/en.json'); // 改成你的 JSON 路徑
+  final file = File('resource/i18n/en.json'); // 改成你的 JSON 路徑
   final jsonStr = await file.readAsString();
   final Map<String, dynamic> jsonMap = json.decode(jsonStr);
 
@@ -23,7 +23,7 @@ void main() async {
   buffer.writeln('  ;\n');
   buffer.writeln('  const AppString({ required this.key });');
   buffer.writeln('  final String key;\n');
-  buffer.writeln('  String getL10n(BuildContext context, [List<String>? args]) {');
+  buffer.writeln('  String getI18n(BuildContext context, [List<String>? args]) {');
   buffer.writeln('    return AppLocalizations.of(context).translate(key, args);');
   buffer.writeln('  }');
   buffer.writeln('}');
