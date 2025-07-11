@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 enum AppLocale {
-  en_US(languageCode: 'en', countryCode: 'US'),
-  zh_TW(languageCode: 'zh', countryCode: 'TW'),
+  enUs(languageCode: 'en', countryCode: 'US'),
+  zhTW(languageCode: 'zh', countryCode: 'TW'),
   ;
 
   const AppLocale({
