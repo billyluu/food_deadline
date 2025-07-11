@@ -90,3 +90,6 @@ macos/Runner/GoogleService-Info.plist
 *.swp
 *.swo
 *.swn
+
+# FVM Version Cache
+.fvm/
