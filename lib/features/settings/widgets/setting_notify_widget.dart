@@ -3,7 +3,7 @@ part of '../settings_screen.dart';
 class _SettingNotifyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FdCard(
+    return RoundedBox(
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [

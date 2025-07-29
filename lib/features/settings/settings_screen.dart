@@ -6,7 +6,7 @@ import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
 import 'package:food_deadline/features/debug/debug_notifications_screen.dart';
 import 'package:food_deadline/features/settings/blocs/app_settings/app_settings_bloc.dart';
-import 'package:food_deadline/shared/widgets/fd_card.dart';
+import 'package:food_deadline/shared/widgets/rounded_box.dart';
 import 'package:food_deadline/shared/widgets/shared_common_text.dart';
 
 part 'widgets/setting_language_widget.dart';

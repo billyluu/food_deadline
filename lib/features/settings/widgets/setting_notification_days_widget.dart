@@ -5,7 +5,7 @@ class _SettingNotificationDaysWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AppSettingsBloc, AppSettingsState>(
       builder: (context, state) {
-        return FdCard(
+        return RoundedBox(
           background: Theme.of(context).colorScheme.tertiary,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

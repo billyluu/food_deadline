@@ -12,7 +12,7 @@ class _SettingLanguageWidget extends StatelessWidget {
             )))
         .toList();
 
-    return FdCard(
+    return RoundedBox(
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
