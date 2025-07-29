@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
 import 'dart:ui' as ui show TextHeightBehavior;
-import 'package:food_deadline/generated/app_string.s.dart';
 import 'package:food_deadline/widgets/base/base_text.dart';
 
 class SharedText extends StatelessWidget {

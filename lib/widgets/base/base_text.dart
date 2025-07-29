@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
 import 'dart:ui' as ui show TextHeightBehavior;
-import 'package:food_deadline/generated/app_string.s.dart';
 
 class BaseText extends StatelessWidget {
   const BaseText({

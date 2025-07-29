@@ -50,6 +50,4 @@ enum AppString {
   String getI18n(BuildContext context, [List<String>? args]) {
     return AppLocalizations.of(context).translate(key, args);
   }
-
-  
 }

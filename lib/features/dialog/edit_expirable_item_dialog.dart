@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_deadline/core/constants/app_string.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
 import 'package:food_deadline/core/realm/models/expirable_item.dart';
 import 'package:food_deadline/core/utils/date_time_helper.dart';
 import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';

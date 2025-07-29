@@ -22,7 +22,7 @@ class _SettingNotificationDaysWidget extends StatelessWidget {
                 items: AppConstants.notificationDaysOptions.map((int days) {
                   return DropdownMenuItem<int>(
                     value: days,
-                    child: Text(
+                    child: SharedText.basic(
                       AppString.settingScreenDaysBeforeExpiry.getI18n(context, [days.toString()]),
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onTertiary,

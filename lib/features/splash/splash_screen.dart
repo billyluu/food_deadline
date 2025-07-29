@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_deadline/core/constants/app_string.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
 import 'package:food_deadline/core/utils/permission_helper.dart';
 import 'package:food_deadline/features/main/main_screen.dart';
+import 'package:food_deadline/shared/widgets/shared_text.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -51,10 +52,10 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _initializeApp() async {
     // 等待動畫完成
     await Future.delayed(const Duration(milliseconds: 1500));
-    
+
     // 請求權限
     await PermissionHelper.requestAllPermissions(context);
-    
+
     // 導航到主畫面
     if (mounted) {
       Navigator.of(context).pushReplacement(
@@ -106,26 +107,30 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                     const SizedBox(height: 32),
-                    
+
                     // App Name
-                    Text(
-                      AppString.appName.getI18n(context),
-                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    SharedText.i18n(
+                      AppString.appName,
+                      style:
+                          Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontWeight: FontWeight.bold,
+                              ),
                     ),
                     const SizedBox(height: 16),
-                    
+
                     // Subtitle
-                    Text(
-                      AppString.splashSubtitle.getI18n(context),
+                    SharedText.i18n(
+                      AppString.splashSubtitle,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
-                      ),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimary
+                                .withOpacity(0.8),
+                          ),
                     ),
                     const SizedBox(height: 48),
-                    
+
                     // Loading indicator
                     SizedBox(
                       width: 32,

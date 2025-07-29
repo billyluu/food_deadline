@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
 import 'package:food_deadline/core/utils/date_time_helper.dart';
-import 'package:food_deadline/generated/app_string.s.dart';
 import 'package:food_deadline/shared/widgets/shared_text.dart';
 import 'package:food_deadline/shared/widgets/shared_edit_icon_button.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_deadline/core/constants/app_string.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
 import 'package:food_deadline/core/constants/shared_preference_helper.dart';
 import 'package:food_deadline/core/realm/models/expirable_item.dart';
 import 'package:food_deadline/core/utils/notification_service.dart';

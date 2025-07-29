@@ -28,9 +28,9 @@ void main() async {
   buffer.writeln('  }');
   buffer.writeln('}');
 
-  final output = File('lib/generated/app_string.s.dart');
+  final output = File('lib/core/constants/app_string.s.dart');
   await output.writeAsString(buffer.toString());
-  print('✅ AppString enum generated at lib/generated/app_string_enum.dart');
+  print('✅ AppString enum generated at lib/core/constants/app_string.s.dart');
 }
 
 String _toCamelCase(String input) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_deadline/core/constants/app_string.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
 import 'package:food_deadline/core/di/service_locator.dart';
 import 'package:food_deadline/features/dialog/edit_expirable_item_dialog.dart';
 import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';

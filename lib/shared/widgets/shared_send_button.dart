@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_deadline/core/constants/app_string.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
+import 'package:food_deadline/shared/widgets/shared_text.dart';
 
 class SharedSendButton extends StatelessWidget {
   const SharedSendButton({
@@ -13,7 +14,9 @@ class SharedSendButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text(AppString.commonSend.getI18n(context)),
+      child: const SharedText.i18n(
+        AppString.commonSend,
+      ),
     );
   }
 }
