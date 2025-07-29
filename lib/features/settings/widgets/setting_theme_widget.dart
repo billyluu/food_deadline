@@ -6,18 +6,18 @@ class _SettingThemeWidget extends StatelessWidget {
     final themeItems = ThemeMode.values
         .map((element) => DropdownMenuItem<ThemeMode>(
             value: element,
-            child: SharedCommonText(
-              text: element.name,
+            child: SharedText.basic(
+              element.name,
               style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
             )))
         .toList();
 
-    return RoundedBox(
+    return SharedRoundedBox(
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
-          SharedCommonText(
-            text: AppString.settingScreenThemeMode.getI18n(context),
+          SharedText.i18n(
+            AppString.settingScreenThemeMode,
             style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
           ),
           const SizedBox(width: 24.0),

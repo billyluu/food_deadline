@@ -7,7 +7,7 @@ import 'package:food_deadline/core/utils/date_time_helper.dart';
 import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';
 import 'package:food_deadline/features/home/widgets/expirable_item_card.dart';
 import 'package:food_deadline/shared/widgets/error_widget.dart';
-import 'package:food_deadline/shared/widgets/shared_common_text.dart';
+import 'package:food_deadline/shared/widgets/shared_text.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -149,22 +149,22 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SharedCommonText(
-            text: date.toYYYYMMDD(),
+          SharedText.basic(
+            date.toYYYYMMDD(),
             style: CommonTextStyle.textStyleLarge(
                 color: Theme.of(context).colorScheme.onPrimary),
           ),
           const SizedBox(height: 8),
           Row(
             children: [
-              SharedCommonText(
-                text: '${AppString.homeScreenTotal.getI18n(context)}$total',
+              SharedText.basic(
+                '${AppString.homeScreenTotal.getI18n(context)}$total',
                 style: CommonTextStyle.textStyle(
                     color: Theme.of(context).colorScheme.onPrimary),
               ),
               const SizedBox(width: 16),
-              SharedCommonText(
-                text: '${AppString.homeScreenExpired.getI18n(context)}$expired',
+              SharedText.basic(
+                '${AppString.homeScreenExpired.getI18n(context)}$expired',
                 style: CommonTextStyle.textStyle(
                     color: Theme.of(context).colorScheme.onPrimary),
               ),

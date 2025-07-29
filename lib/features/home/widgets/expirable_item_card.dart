@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_deadline/core/constants/app_string.dart';
-import 'package:food_deadline/core/extension/datetime_extension.dart';
 import 'package:food_deadline/core/utils/date_time_helper.dart';
-import 'package:food_deadline/shared/widgets/shared_common_text.dart';
+import 'package:food_deadline/generated/app_string.s.dart';
+import 'package:food_deadline/shared/widgets/shared_text.dart';
 import 'package:food_deadline/shared/widgets/shared_edit_icon_button.dart';
 
 class ExpiredItemCard extends StatefulWidget {
@@ -88,8 +87,8 @@ class _ExpiredItemCardState extends State<ExpiredItemCard>
                   color: Colors.red,
                 ),
                 padding: const EdgeInsets.all(12.0),
-                child: SharedCommonText(
-                  text: AppString.commonDelete.getI18n(context),
+                child: SharedText.i18n(
+                  AppString.commonDelete,
                   textAlign: TextAlign.end,
                   style: CommonTextStyle.textStyle(color: Colors.white),
                 ),
@@ -121,8 +120,8 @@ class _ExpiredItemCardState extends State<ExpiredItemCard>
                       children: [
                         Expanded(
                           flex: 2,
-                          child: SharedCommonText(
-                            text: widget.title,
+                          child: SharedText.basic(
+                            widget.title,
                             style: CommonTextStyle.textStyle(
                               color: Theme.of(context).colorScheme.onTertiary,
                             ),
@@ -130,8 +129,8 @@ class _ExpiredItemCardState extends State<ExpiredItemCard>
                         ),
                         Expanded(
                           flex: 1,
-                          child: SharedCommonText(
-                            text: DateTimeHelper.formatMillisecondsToDate(
+                          child: SharedText.basic(
+                            DateTimeHelper.formatMillisecondsToDate(
                               int.parse(widget.expiryDate),
                             ),
                             style: CommonTextStyle.textStyle(

@@ -3,12 +3,12 @@ part of '../settings_screen.dart';
 class _SettingNotifyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RoundedBox(
+    return SharedRoundedBox(
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
-          SharedCommonText(
-            text: AppString.settingScreenNotificationSwitch.getI18n(context),
+          SharedText.i18n(
+            AppString.settingScreenNotificationSwitch,
             style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
           ),
           const SizedBox(width: 24.0),

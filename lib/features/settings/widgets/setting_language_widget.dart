@@ -6,18 +6,18 @@ class _SettingLanguageWidget extends StatelessWidget {
     final languages = AppLocale.values
         .map((element) => DropdownMenuItem<AppLocale>(
             value: element,
-            child: SharedCommonText(
-              text: element.name,
+            child: SharedText.basic(
+              element.name,
               style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
             )))
         .toList();
 
-    return RoundedBox(
+    return SharedRoundedBox(
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
-          SharedCommonText(
-            text: AppString.settingScreenLanguage.getI18n(context),
+          SharedText.i18n(
+            AppString.settingScreenLanguage,
             style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
           ),
           const SizedBox(width: 24.0),

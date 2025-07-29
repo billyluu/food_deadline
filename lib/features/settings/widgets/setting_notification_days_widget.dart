@@ -5,13 +5,13 @@ class _SettingNotificationDaysWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AppSettingsBloc, AppSettingsState>(
       builder: (context, state) {
-        return RoundedBox(
+        return SharedRoundedBox(
           background: Theme.of(context).colorScheme.tertiary,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SharedCommonText(
-                text: AppString.settingScreenNotificationDays.getI18n(context),
+              SharedText.i18n(
+                AppString.settingScreenNotificationDays,
                 style: CommonTextStyle.textStyle(
                   color: Theme.of(context).colorScheme.onTertiary,
                 ),

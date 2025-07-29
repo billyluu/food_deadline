@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_deadline/core/constants/app_constants.dart';
-import 'package:food_deadline/core/constants/app_string.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
 import 'package:food_deadline/features/debug/debug_notifications_screen.dart';
 import 'package:food_deadline/features/settings/blocs/app_settings/app_settings_bloc.dart';
-import 'package:food_deadline/shared/widgets/rounded_box.dart';
-import 'package:food_deadline/shared/widgets/shared_common_text.dart';
+import 'package:food_deadline/generated/app_string.s.dart';
+import 'package:food_deadline/shared/widgets/shared_rounded_box.dart';
+import 'package:food_deadline/shared/widgets/shared_text.dart';
 
 part 'widgets/setting_language_widget.dart';
 part 'widgets/setting_notify_widget.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class RoundedBox extends StatelessWidget {
+class SharedRoundedBox extends StatelessWidget {
   final Widget child;
   final Color background;
 
-  const RoundedBox({
+  const SharedRoundedBox({
     super.key,
     required this.child,
     required this.background,

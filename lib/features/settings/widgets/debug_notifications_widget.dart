@@ -3,7 +3,7 @@ part of '../settings_screen.dart';
 class _DebugNotificationsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RoundedBox(
+    return SharedRoundedBox(
       background: Theme.of(context).colorScheme.secondary,
       child: InkWell(
         onTap: () {
@@ -17,8 +17,8 @@ class _DebugNotificationsWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SharedCommonText(
-              text: '查看排程通知',
+            SharedText.basic(
+              '查看排程通知',
               style: CommonTextStyle.textStyle(
                 color: Theme.of(context).colorScheme.onSecondary,
               ),

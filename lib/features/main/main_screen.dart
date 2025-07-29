@@ -6,7 +6,7 @@ import 'package:food_deadline/features/dialog/edit_expirable_item_dialog.dart';
 import 'package:food_deadline/features/home/bloc/expirable_Item/expirable_bloc.dart';
 import 'package:food_deadline/features/home/home_screen.dart';
 import 'package:food_deadline/features/settings/settings_screen.dart';
-import 'package:food_deadline/shared/widgets/shared_common_text.dart';
+import 'package:food_deadline/shared/widgets/shared_text.dart';
 
 enum MainBottomNavType {
   home(
@@ -89,8 +89,8 @@ class MainScreenState extends State<MainScreen> {
           children: [
             for (var i = 0; i < MainBottomNavType.values.length; i++) ...[
               ElevatedButton.icon(
-                label: SharedCommonText(
-                  text: MainBottomNavType.values[i].title.getI18n(context),
+                label: SharedText.basic(
+                  MainBottomNavType.values[i].title.getI18n(context),
                   style: CommonTextStyle.textStyle(
                       color: Theme.of(context).colorScheme.onPrimary),
                 ),
