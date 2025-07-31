@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:food_deadline/core/constants/app_constants.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
-import 'package:food_deadline/core/constants/shared_preference_helper.dart';
+import 'package:food_deadline/core/utils/app_preference_helper.dart';
 
 part 'app_settings_event.dart';
 part 'app_settings_state.dart';
@@ -28,10 +28,10 @@ class AppSettingsBloc extends Bloc<AppSettingsEvent, AppSettingsState> {
   }
 
   Future<void> _loadAppSettings(AppSettingsLoadingEvent event, Emitter<AppSettingsState> emit) async {
-    final locale = await SharedPreferenceHelper.getLocale();
-    final theme = await SharedPreferenceHelper.getThemeMode();
-    final notificationsEnabled = await SharedPreferenceHelper.getNotificationsEnabled();
-    final notificationDays = await SharedPreferenceHelper.getNotificationDaysBeforeExpiry();
+    final locale = await AppPreferenceHelper.getLocale();
+    final theme = await AppPreferenceHelper.getThemeMode();
+    final notificationsEnabled = await AppPreferenceHelper.getNotificationsEnabled();
+    final notificationDays = await AppPreferenceHelper.getNotificationDaysBeforeExpiry();
     emit(state.copyWith(
       appLocale: locale, 
       theme: theme, 
@@ -41,22 +41,22 @@ class AppSettingsBloc extends Bloc<AppSettingsEvent, AppSettingsState> {
   }
 
   Future<void> _updateLocale(AppSettingsUpdateLocaleEvent event, Emitter<AppSettingsState> emit) async {
-    SharedPreferenceHelper.setLocale(event.appLocale.name);
+    AppPreferenceHelper.setLocale(event.appLocale.name);
     emit(state.copyWith(appLocale: event.appLocale));
   }
 
   Future<void> _updateTheme(AppSettingsUpdateThemeEvent event, Emitter<AppSettingsState> emit) async {
-    SharedPreferenceHelper.setThemeMode(event.theme);
+    AppPreferenceHelper.setThemeMode(event.theme);
     emit(state.copyWith(theme: event.theme));
   }
 
   Future<void> _updateNotifications(AppSettingsUpdateNotificationsEvent event, Emitter<AppSettingsState> emit) async {
-    SharedPreferenceHelper.setNotificationsEnabled(event.notificationsEnabled);
+    AppPreferenceHelper.setNotificationsEnabled(event.notificationsEnabled);
     emit(state.copyWith(notificationsEnabled: event.notificationsEnabled));
   }
 
   Future<void> _updateNotificationDays(AppSettingsUpdateNotificationDaysEvent event, Emitter<AppSettingsState> emit) async {
-    SharedPreferenceHelper.setNotificationDaysBeforeExpiry(event.notificationDaysBeforeExpiry);
+    AppPreferenceHelper.setNotificationDaysBeforeExpiry(event.notificationDaysBeforeExpiry);
     emit(state.copyWith(notificationDaysBeforeExpiry: event.notificationDaysBeforeExpiry));
   }
 }

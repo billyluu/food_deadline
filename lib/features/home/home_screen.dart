@@ -33,14 +33,15 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       builder: (context, state) {
         final expirableItemBloc = context.read<ExpirableItemBloc>();
-        
+
         switch (state) {
           case ExpirableItemSuccess():
             final expirableItems = state.expirableItem;
             final expired = expirableItems
-                .where((element) => DateTimeHelper.isExpired(element.expiryDate))
+                .where(
+                    (element) => DateTimeHelper.isExpired(element.expiryDate))
                 .length;
-            
+
             return Column(
               children: [
                 _Header(
@@ -49,28 +50,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   expired: expired,
                 ),
                 Expanded(
-                  child: expirableItems.isEmpty 
-                    ? _Empty() 
-                    : _BuildItemList(expirableItems: expirableItems, expirableItemBloc: expirableItemBloc),
+                  child: expirableItems.isEmpty
+                      ? _Empty()
+                      : _BuildItemList(
+                          expirableItems: expirableItems,
+                          expirableItemBloc: expirableItemBloc),
                 ),
               ],
             );
-            
+
           case ExpirableItemError():
             // 如果有錯誤但還有資料，顯示資料
-            if (state.expirableItem != null && state.expirableItem!.isNotEmpty) {
-              return _BuildItemList(expirableItems: state.expirableItem!, expirableItemBloc: expirableItemBloc);
+            if (state.expirableItem != null &&
+                state.expirableItem!.isNotEmpty) {
+              return _BuildItemList(
+                  expirableItems: state.expirableItem!,
+                  expirableItemBloc: expirableItemBloc);
             }
             // 沒有資料時顯示錯誤畫面
             return AppErrorWidget(
               exception: state.exception,
               onRetry: () => expirableItemBloc.add(ExpirableItemInitialEvent()),
             );
-            
+
           case ExpirableItemLoading():
             // 載入中但有快取資料
             if (state.expirableItem != null) {
-              return _BuildItemList(expirableItems: state.expirableItem!, expirableItemBloc: expirableItemBloc);
+              return _BuildItemList(
+                  expirableItems: state.expirableItem!,
+                  expirableItemBloc: expirableItemBloc);
             }
             return const Center(child: CircularProgressIndicator());
         }
@@ -101,7 +109,8 @@ class _BuildItemList extends StatelessWidget {
                 title: expirableItem.name,
                 expiryDate: expirableItem.expiryDate.toString(),
                 disabled: expirableItem.isExpired,
-                onDelete: () => expirableItemBloc.add(ExpirableItemDeleteEvent(expirableItem: expirableItem)),
+                onDelete: () => expirableItemBloc.add(
+                    ExpirableItemDeleteEvent(expirableItem: expirableItem)),
               ),
               if (expirableItem != expirableItems.last) ...[
                 const SizedBox(height: 6.0),
@@ -118,7 +127,9 @@ class _Empty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('No data'),
+      child: SharedText.i18n(
+        AppString.commonEmpty,
+      ),
     );
   }
 }

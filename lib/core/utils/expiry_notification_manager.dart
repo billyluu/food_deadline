@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_deadline/core/constants/app_string.s.dart';
-import 'package:food_deadline/core/constants/shared_preference_helper.dart';
+import 'package:food_deadline/core/utils/app_preference_helper.dart';
 import 'package:food_deadline/core/realm/models/expirable_item.dart';
 import 'package:food_deadline/core/utils/notification_service.dart';
 
@@ -10,8 +10,8 @@ class ExpiryNotificationManager {
   ExpiryNotificationManager({required this.notificationService});
 
   Future<void> scheduleExpiryNotifications(ExpirableItem item, BuildContext context) async {
-    final notificationDays = await SharedPreferenceHelper.getNotificationDaysBeforeExpiry();
-    final notificationsEnabled = await SharedPreferenceHelper.getNotificationsEnabled();
+    final notificationDays = await AppPreferenceHelper.getNotificationDaysBeforeExpiry();
+    final notificationsEnabled = await AppPreferenceHelper.getNotificationsEnabled();
     
     if (!notificationsEnabled) return;
 

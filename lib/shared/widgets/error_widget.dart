@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
 import 'package:food_deadline/core/errors/app_exception.dart';
+import 'package:food_deadline/shared/widgets/shared_text.dart';
 
 class AppErrorWidget extends StatelessWidget {
   final AppException exception;
@@ -35,8 +37,8 @@ class AppErrorWidget extends StatelessWidget {
             size: 48,
           ),
           const SizedBox(height: 16),
-          Text(
-            '發生錯誤',
+          SharedText.i18n(
+            AppString.errorSomethingWentWrong,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: Theme.of(context).colorScheme.error,
               fontWeight: FontWeight.bold,
@@ -55,7 +57,7 @@ class AppErrorWidget extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh),
-              label: const Text('重試'),
+              label: const SharedText.i18n(AppString.commonRetry),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.error,
                 foregroundColor: Theme.of(context).colorScheme.onError,
@@ -92,7 +94,7 @@ class AppErrorSnackBar {
         backgroundColor: Theme.of(context).colorScheme.error,
         behavior: SnackBarBehavior.floating,
         action: SnackBarAction(
-          label: '關閉',
+          label: AppString.commonClose.getI18n(context),
           textColor: Theme.of(context).colorScheme.onError,
           onPressed: () {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();

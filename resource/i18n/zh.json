@@ -5,6 +5,8 @@
   "common_close": "關閉",
   "common_confirm": "確認",
   "common_cancel": "取消",
+  "common_retry": "重試",
+  "common_empty": "沒有找到任何資料",
   "bottomNavBar_home": "首頁",
   "bottomNavBar_setting": "設定",
   "homeScreen_total": "總數量：",
@@ -36,5 +38,6 @@
   "permission_feature_warning_desc": "當食物過期時立即收到提醒",
   "permission_feature_custom": "個人化設定",
   "permission_feature_custom_desc": "可自訂提醒時間和頻率",
-  "splash_subtitle": "智慧食物保鮮管理"
+  "splash_subtitle": "智慧食物保鮮管理",
+  "error_something_went_wrong": "發生錯誤。"
 }

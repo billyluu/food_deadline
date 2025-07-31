@@ -3,7 +3,7 @@ import 'package:food_deadline/core/constants/app_constants.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPreferenceHelper {
+class AppPreferenceHelper {
   static const String _themeModeKey = 'theme_mode';
   static const String _notificationsEnabledKey = 'notifications_enabled';
   static const String _localeKey = 'locale';

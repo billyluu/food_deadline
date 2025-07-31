@@ -10,6 +10,8 @@ enum AppString {
   commonClose(key: 'common_close'),
   commonConfirm(key: 'common_confirm'),
   commonCancel(key: 'common_cancel'),
+  commonRetry(key: 'common_retry'),
+  commonEmpty(key: 'common_empty'),
   bottomNavBarHome(key: 'bottomNavBar_home'),
   bottomNavBarSetting(key: 'bottomNavBar_setting'),
   homeScreenTotal(key: 'homeScreen_total'),
@@ -42,6 +44,7 @@ enum AppString {
   permissionFeatureCustom(key: 'permission_feature_custom'),
   permissionFeatureCustomDesc(key: 'permission_feature_custom_desc'),
   splashSubtitle(key: 'splash_subtitle'),
+  errorSomethingWentWrong(key: 'error_something_went_wrong'),
   ;
 
   const AppString({ required this.key });

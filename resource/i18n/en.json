@@ -5,6 +5,8 @@
   "common_close": "Close",
   "common_confirm": "Confirm",
   "common_cancel": "Cancel",
+  "common_retry": "Retry",
+  "common_empty": "No items found",
   "bottomNavBar_home": "Home",
   "bottomNavBar_setting": "Setting",
   "homeScreen_total": "Total: ",
@@ -36,5 +38,6 @@
   "permission_feature_warning_desc": "Get immediate alerts when food expires",
   "permission_feature_custom": "Personalized Settings",
   "permission_feature_custom_desc": "Customize reminder times and frequency",
-  "splash_subtitle": "Smart Food Freshness Management"
+  "splash_subtitle": "Smart Food Freshness Management",
+  "error_something_went_wrong": "Something went wrong."
 }
