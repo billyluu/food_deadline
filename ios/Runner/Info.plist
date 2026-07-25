@@ -45,5 +45,16 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- 背景檢查到期日並發送本地通知（Workmanager / BGTaskScheduler） -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>update_deadline_task</string>
+		<string>update_deadline_task_once</string>
+	</array>
 </dict>
 </plist>

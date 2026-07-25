@@ -40,7 +40,7 @@ class App extends StatelessWidget {
                 foregroundColor: myColorScheme.onPrimary,
                 elevation: 0,
               ),
-              cardTheme: CardTheme(
+              cardTheme: CardThemeData(
                 color: myColorScheme.surface,
                 elevation: 2,
                 shape: RoundedRectangleBorder(
@@ -65,7 +65,7 @@ class App extends StatelessWidget {
                 foregroundColor: myDarkColorScheme.onTertiary,
                 elevation: 0,
               ),
-              cardTheme: CardTheme(
+              cardTheme: CardThemeData(
                 color: myDarkColorScheme.surface,
                 elevation: 4,
                 shape: RoundedRectangleBorder(

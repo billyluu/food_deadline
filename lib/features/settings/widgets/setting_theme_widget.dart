@@ -1,13 +1,21 @@
 part of '../settings_screen.dart';
 
 class _SettingThemeWidget extends StatelessWidget {
+  AppString _themeLabel(ThemeMode mode) {
+    return switch (mode) {
+      ThemeMode.system => AppString.themeModeSystem,
+      ThemeMode.light => AppString.themeModeLight,
+      ThemeMode.dark => AppString.themeModeDark,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeItems = ThemeMode.values
         .map((element) => DropdownMenuItem<ThemeMode>(
             value: element,
-            child: SharedText.basic(
-              element.name,
+            child: SharedText.i18n(
+              _themeLabel(element),
               style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
             )))
         .toList();
@@ -16,9 +24,11 @@ class _SettingThemeWidget extends StatelessWidget {
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
-          SharedText.i18n(
-            AppString.settingScreenThemeMode,
-            style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
+          Expanded(
+            child: SharedText.i18n(
+              AppString.settingScreenThemeMode,
+              style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
+            ),
           ),
           const SizedBox(width: 24.0),
           BlocBuilder<AppSettingsBloc, AppSettingsState>(

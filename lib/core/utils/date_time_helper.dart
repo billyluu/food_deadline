@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
 import 'package:intl/intl.dart';
 
 /// 統一的時間處理工具類
@@ -80,40 +82,41 @@ class DateTimeHelper {
     return formatDateTime(fromSeconds(seconds));
   }
 
-  /// 檢查是否過期
+  /// 檢查是否過期。
+  /// 到期當日整天（至 23:59:59）仍視為未過期，隔天 00:00:00 起才算過期。
   static bool isExpired(int expiryMilliseconds) {
-    return now.millisecondsSinceEpoch > expiryMilliseconds;
+    return now.isAfter(endOfDay(fromMilliseconds(expiryMilliseconds)));
   }
 
-  /// 檢查是否在指定天數內過期
+  /// 檢查是否在指定天數內過期（含到期當日）
   static bool isExpiringWithinDays(int expiryMilliseconds, int days) {
-    final expiryDate = fromMilliseconds(expiryMilliseconds);
-    final checkDate = now.add(Duration(days: days));
-    return expiryDate.isBefore(checkDate) || expiryDate.isAtSameMomentAs(checkDate);
+    final remaining = daysUntilExpiry(expiryMilliseconds);
+    return remaining >= 0 && remaining <= days;
   }
 
-  /// 計算距離過期的天數
+  /// 計算距離過期的天數（以日曆日比較，忽略時分秒）
+  /// 回傳 0 表示今天到期（當日仍未過期）
   static int daysUntilExpiry(int expiryMilliseconds) {
-    final expiryDate = fromMilliseconds(expiryMilliseconds);
-    final difference = expiryDate.difference(todayStart).inDays;
-    return difference;
+    final expiryDay = startOfDay(fromMilliseconds(expiryMilliseconds));
+    return expiryDay.difference(todayStart).inDays;
   }
 
-  /// 計算過期了多少天
+  /// 計算過期了多少天（以日曆日比較）
   static int daysExpired(int expiryMilliseconds) {
-    final expiryDate = fromMilliseconds(expiryMilliseconds);
-    final difference = todayStart.difference(expiryDate).inDays;
-    return difference;
+    final expiryDay = startOfDay(fromMilliseconds(expiryMilliseconds));
+    return todayStart.difference(expiryDay).inDays;
   }
 
   /// 獲取過期狀態描述
-  static String getExpiryStatus(int expiryMilliseconds) {
+  static String getExpiryStatus(BuildContext context, int expiryMilliseconds) {
     if (isExpired(expiryMilliseconds)) {
       final days = daysExpired(expiryMilliseconds);
-      return days == 0 ? '今天過期' : '過期 $days 天';
+      return AppString.expiryStatusExpired.getI18n(context, [days.toString()]);
     } else {
       final days = daysUntilExpiry(expiryMilliseconds);
-      return days == 0 ? '今天到期' : '$days 天後到期';
+      return days == 0
+          ? AppString.expiryStatusToday.getI18n(context)
+          : AppString.expiryStatusInDays.getI18n(context, [days.toString()]);
     }
   }
 

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_deadline/core/constants/enums/app_locale.dart';
+import 'package:food_deadline/core/utils/app_preference_helper.dart';
 
 class AppLocalizations {
   final Locale locale;
@@ -11,6 +12,14 @@ class AppLocalizations {
 
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  }
+
+  /// 依偏好設定語系載入翻譯（背景 isolate / 無 BuildContext 時使用）。
+  static Future<AppLocalizations> loadFromPreference() async {
+    final appLocale = await AppPreferenceHelper.getLocale();
+    final localizations = AppLocalizations(appLocale.getLocale());
+    await localizations.load();
+    return localizations;
   }
 
   late Map<String, String> _localizedStrings;

@@ -1,133 +1,91 @@
+import 'dart:ui';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:food_deadline/core/utils/app_preference_helper.dart';
-import 'package:food_deadline/core/realm/models/expirable_item.dart';
-import 'package:food_deadline/core/utils/date_time_helper.dart';
-import 'package:timezone/data/latest.dart' as tzData;
-import 'package:timezone/timezone.dart' as tz;
+import 'package:food_deadline/core/constants/app_localizations.dart';
+import 'package:food_deadline/core/constants/app_string.s.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class NotificationService {
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
-  Future<void> init() async {
-    tzData.initializeTimeZones();
+  AndroidNotificationDetails? _androidDetails;
+  DarwinNotificationDetails? _iosDetails;
 
-    const AndroidInitializationSettings androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+  Future<void> init({AppLocalizations? l10n}) async {
+    // 背景 isolate 需要顯式註冊外掛
+    DartPluginRegistrant.ensureInitialized();
+
+    final localizations = l10n ?? await AppLocalizations.loadFromPreference();
+    _androidDetails = AndroidNotificationDetails(
+      'food_channel',
+      AppString.notificationChannelName.tr(localizations),
+      channelDescription:
+          AppString.notificationChannelDescription.tr(localizations),
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    _iosDetails = const DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+
+    const AndroidInitializationSettings androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    // 權限改由 Permission.notification 統一請求，避免啟動時重複彈窗
+    const DarwinInitializationSettings iosSettings =
+        DarwinInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+    );
 
     const InitializationSettings initSettings = InitializationSettings(
       android: androidSettings,
+      iOS: iosSettings,
     );
 
     await _flutterLocalNotificationsPlugin.initialize(initSettings);
+
+    // Android 13+ / iOS 皆需明確請求通知權限
+    await Permission.notification.request();
   }
 
-  Future<void> scheduleNotification({
+  Future<void> showNow({
     required int id,
     required String title,
     required String body,
-    required DateTime scheduledTime,
   }) async {
-    try {
-      await _flutterLocalNotificationsPlugin.zonedSchedule(
-        id,
-        title,
-        body,
-        tz.TZDateTime.from(scheduledTime, tz.local),
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'food_channel',
-            'Food Notifications',
-            channelDescription: '提醒食物到期的通知',
-            importance: Importance.max,
-            priority: Priority.high,
-          ),
-        ),
-        payload: DateTimeHelper.toSeconds(scheduledTime).toString(),
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.dateAndTime,
-        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-      );
-    } catch (e) {
-      // 如果精確鬧鐘權限被拒絕，嘗試使用非精確模式
-      if (e.toString().contains('exact_alarms_not_permitted')) {
-        await _flutterLocalNotificationsPlugin.zonedSchedule(
-          id,
-          title,
-          body,
-          tz.TZDateTime.from(scheduledTime, tz.local),
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'food_channel',
-              'Food Notifications',
-              channelDescription: '提醒食物到期的通知',
-              importance: Importance.max,
-              priority: Priority.high,
-            ),
-          ),
-          payload: DateTimeHelper.toSeconds(scheduledTime).toString(),
-          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-          matchDateTimeComponents: DateTimeComponents.dateAndTime,
-          androidScheduleMode: AndroidScheduleMode.alarmClock,
+    final androidDetails = _androidDetails ??
+        const AndroidNotificationDetails(
+          'food_channel',
+          'Food Notifications',
+          channelDescription: 'Notifications for food expiry reminders',
+          importance: Importance.max,
+          priority: Priority.high,
         );
-      } else {
-        rethrow;
-      }
-    }
+    final iosDetails = _iosDetails ??
+        const DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        );
+
+    await _flutterLocalNotificationsPlugin.show(
+      id,
+      title,
+      body,
+      NotificationDetails(
+        android: androidDetails,
+        iOS: iosDetails,
+      ),
+    );
   }
 
   Future<void> cancelNotification({required int id}) async {
     await _flutterLocalNotificationsPlugin.cancel(id);
-  }
-
-  Future<void> scheduleAllItemNotifications(List<ExpirableItem> items) async {
-    // 先取消所有現有通知
-    await _flutterLocalNotificationsPlugin.cancelAll();
-    
-    // 為每個未過期的食物排程通知
-    for (final item in items) {
-      if (!DateTimeHelper.isExpired(item.expiryDate)) {
-        await scheduleExpiryNotifications(item);
-      }
-    }
-  }
-
-  Future<void> scheduleExpiryNotifications(ExpirableItem item) async {
-    final notificationDays = await AppPreferenceHelper.getNotificationDaysBeforeExpiry();
-    final notificationsEnabled = await AppPreferenceHelper.getNotificationsEnabled();
-    
-    if (!notificationsEnabled) return;
-
-    final expiryDate = DateTimeHelper.fromMilliseconds(item.expiryDate);
-    final now = DateTimeHelper.now;
-    
-    // 使用簡單的ID生成策略，確保在32位整數範圍內
-    final baseId = (item.id.hashCode % 1000000).abs();
-    
-    // 排程提前通知（X天前）
-    final reminderDate = expiryDate.subtract(Duration(days: notificationDays));
-    if (reminderDate.isAfter(now)) {
-      await scheduleNotification(
-        id: baseId,
-        title: '食物即將過期提醒',
-        body: '${item.name} 將在 $notificationDays 天後過期',
-        scheduledTime: DateTimeHelper.createNotificationTime(reminderDate),
-      );
-    }
-    
-    // 排程過期當天通知
-    if (expiryDate.isAfter(now)) {
-      await scheduleNotification(
-        id: baseId + 100000,
-        title: '食物已過期',
-        body: '${item.name} 今天已過期，請儘快處理',
-        scheduledTime: DateTimeHelper.createNotificationTime(expiryDate),
-      );
-    }
-  }
-
-  Future<void> cancelExpiryNotifications(ExpirableItem item) async {
-    final baseId = (item.id.hashCode % 1000000).abs();
-    await cancelNotification(id: baseId);
-    await cancelNotification(id: baseId + 100000);
   }
 
   Future<List<PendingNotificationRequest>> getPendingNotifications() async {

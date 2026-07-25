@@ -18,7 +18,7 @@ class _DebugNotificationsWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SharedText.basic(
-              '查看排程通知',
+              '通知測試',
               style: CommonTextStyle.textStyle(
                 color: Theme.of(context).colorScheme.onSecondary,
               ),

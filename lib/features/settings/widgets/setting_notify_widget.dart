@@ -7,9 +7,11 @@ class _SettingNotifyWidget extends StatelessWidget {
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
-          SharedText.i18n(
-            AppString.settingScreenNotificationSwitch,
-            style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
+          Expanded(
+            child: SharedText.i18n(
+              AppString.settingScreenNotificationSwitch,
+              style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
+            ),
           ),
           const SizedBox(width: 24.0),
           BlocBuilder<AppSettingsBloc, AppSettingsState>(

@@ -133,7 +133,7 @@ class _ExpiredItemCardState extends State<ExpiredItemCard>
                             DateTimeHelper.formatMillisecondsToDate(
                               int.parse(widget.expiryDate),
                             ),
-                            style: CommonTextStyle.textStyle(
+                            style: CommonTextStyle.textStyleSmall(
                               color: Theme.of(context).colorScheme.onTertiary,
                             ),
                           ),

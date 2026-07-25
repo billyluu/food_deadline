@@ -26,6 +26,10 @@ void main() async {
   buffer.writeln('  String getI18n(BuildContext context, [List<String>? args]) {');
   buffer.writeln('    return AppLocalizations.of(context).translate(key, args);');
   buffer.writeln('  }');
+  buffer.writeln('');
+  buffer.writeln('  String tr(AppLocalizations l10n, [List<String>? args]) {');
+  buffer.writeln('    return l10n.translate(key, args);');
+  buffer.writeln('  }');
   buffer.writeln('}');
 
   final output = File('lib/core/constants/app_string.s.dart');

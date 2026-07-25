@@ -16,15 +16,14 @@ Future<void> setupServiceLocator() async {
   getIt.registerFactory<AppSettingsBloc>(
     () => AppSettingsBloc(),
   );
-  
+
   getIt.registerFactory<NotificationBloc>(
     () => NotificationBloc(),
   );
-  
+
   getIt.registerFactory<ExpirableItemBloc>(
     () => ExpirableItemBloc(
       realmHelper: getIt<RealmHelper>(),
-      notificationService: getIt<NotificationService>(),
     ),
   );
 }

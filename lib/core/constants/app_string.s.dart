@@ -12,6 +12,7 @@ enum AppString {
   commonCancel(key: 'common_cancel'),
   commonRetry(key: 'common_retry'),
   commonEmpty(key: 'common_empty'),
+  commonListSeparator(key: 'common_list_separator'),
   bottomNavBarHome(key: 'bottomNavBar_home'),
   bottomNavBarSetting(key: 'bottomNavBar_setting'),
   homeScreenTotal(key: 'homeScreen_total'),
@@ -21,13 +22,25 @@ enum AppString {
   settingScreenNotificationDays(key: 'settingScreen_notificationDays'),
   settingScreenDaysBeforeExpiry(key: 'settingScreen_daysBeforeExpiry'),
   settingScreenLanguage(key: 'settingScreen_language'),
+  themeModeSystem(key: 'themeMode_system'),
+  themeModeLight(key: 'themeMode_light'),
+  themeModeDark(key: 'themeMode_dark'),
+  localeEnUs(key: 'locale_enUs'),
+  localeZhTW(key: 'locale_zhTW'),
   editExpirableItemScreenAdd(key: 'editExpirableItemScreen_add'),
   editExpirableItemScreenName(key: 'editExpirableItemScreen_name'),
   editExpirableItemScreenInputPlaceHolder(key: 'editExpirableItemScreen_input_placeHolder'),
+  expiryStatusExpired(key: 'expiry_status_expired'),
+  expiryStatusToday(key: 'expiry_status_today'),
+  expiryStatusInDays(key: 'expiry_status_in_days'),
+  notificationChannelName(key: 'notification_channel_name'),
+  notificationChannelDescription(key: 'notification_channel_description'),
   notificationExpiryReminderTitle(key: 'notification_expiry_reminder_title'),
   notificationExpiryReminderBody(key: 'notification_expiry_reminder_body'),
+  notificationExpiryReminderBodyMultiple(key: 'notification_expiry_reminder_body_multiple'),
   notificationExpiredTitle(key: 'notification_expired_title'),
   notificationExpiredBody(key: 'notification_expired_body'),
+  notificationExpiredBodyMultiple(key: 'notification_expired_body_multiple'),
   permissionNotificationTitle(key: 'permission_notification_title'),
   permissionNotificationDescription(key: 'permission_notification_description'),
   permissionExactAlarmTitle(key: 'permission_exact_alarm_title'),
@@ -52,5 +65,9 @@ enum AppString {
 
   String getI18n(BuildContext context, [List<String>? args]) {
     return AppLocalizations.of(context).translate(key, args);
+  }
+
+  String tr(AppLocalizations l10n, [List<String>? args]) {
+    return l10n.translate(key, args);
   }
 }

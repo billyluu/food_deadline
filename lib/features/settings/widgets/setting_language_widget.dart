@@ -1,13 +1,20 @@
 part of '../settings_screen.dart';
 
 class _SettingLanguageWidget extends StatelessWidget {
+  AppString _localeLabel(AppLocale locale) {
+    return switch (locale) {
+      AppLocale.enUs => AppString.localeEnUs,
+      AppLocale.zhTW => AppString.localeZhTW,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final languages = AppLocale.values
         .map((element) => DropdownMenuItem<AppLocale>(
             value: element,
-            child: SharedText.basic(
-              element.name,
+            child: SharedText.i18n(
+              _localeLabel(element),
               style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
             )))
         .toList();
@@ -16,9 +23,11 @@ class _SettingLanguageWidget extends StatelessWidget {
       background: Theme.of(context).colorScheme.tertiary,
       child: Row(
         children: [
-          SharedText.i18n(
-            AppString.settingScreenLanguage,
-            style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
+          Expanded(
+            child: SharedText.i18n(
+              AppString.settingScreenLanguage,
+              style: CommonTextStyle.textStyle(color: Theme.of(context).colorScheme.onTertiary),
+            ),
           ),
           const SizedBox(width: 24.0),
           BlocBuilder<AppSettingsBloc, AppSettingsState>(
