@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_deadline/core/errors/app_exception.dart';
 import 'package:food_deadline/core/realm/models/expirable_item.dart';
 import 'package:food_deadline/core/realm/realm_helper.dart';
+import 'package:food_deadline/core/utils/notification_service.dart';
 import 'package:food_deadline/core/utils/result.dart';
 
 part 'expirable_event.dart';
@@ -10,9 +11,11 @@ part 'expirable_state.dart';
 
 class ExpirableItemBloc extends Bloc<ExpirableItemEvent, ExpirableItemState> {
   final RealmHelper realmHelper;
+  final NotificationService notificationService;
 
   ExpirableItemBloc({
     required this.realmHelper,
+    required this.notificationService,
   }) : super(ExpirableItemLoading()) {
     on<ExpirableItemInitialEvent>((event, emit) => _init(event, emit));
     on<ExpirableItemAddEvent>((event, emit) => _add(event, emit));
@@ -35,6 +38,7 @@ class ExpirableItemBloc extends Bloc<ExpirableItemEvent, ExpirableItemState> {
 
     switch (addResult) {
       case Success():
+        await notificationService.scheduleExpiryNotifications(event.expirableItem);
         final getResult = realmHelper.getAllItems();
         switch (getResult) {
           case Success(data: final items):
@@ -58,6 +62,7 @@ class ExpirableItemBloc extends Bloc<ExpirableItemEvent, ExpirableItemState> {
 
     switch (deleteResult) {
       case Success():
+        await notificationService.cancelExpiryNotifications(event.expirableItem);
         final getResult = realmHelper.getAllItems();
         switch (getResult) {
           case Success(data: final items):

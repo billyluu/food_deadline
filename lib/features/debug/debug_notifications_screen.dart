@@ -70,19 +70,18 @@ class _DebugNotificationsScreenState extends State<DebugNotificationsScreen> {
     }
   }
 
-  Future<void> _runDeadlineCheckNow() async {
+  Future<void> _resyncNow() async {
     setState(() => _isBusy = true);
     try {
-      final count = await TaskManager.runDeadlineCheck();
+      final count = await TaskManager.resyncScheduledNotifications();
+      await _loadPendingNotifications();
       if (count < 0) {
-        _showMessage('通知已關閉，請先在設定開啟通知');
-      } else if (count == 0) {
-        _showMessage('目前沒有在提醒視窗內的物品');
+        _showMessage('通知已關閉，已清除所有排程');
       } else {
-        _showMessage('已發送到期提醒（$count 項）');
+        _showMessage('已重排 $count 項物品的精確通知');
       }
     } catch (e) {
-      _showMessage('檢查失敗: $e');
+      _showMessage('重排失敗: $e');
     } finally {
       if (mounted) setState(() => _isBusy = false);
     }
@@ -91,8 +90,8 @@ class _DebugNotificationsScreenState extends State<DebugNotificationsScreen> {
   Future<void> _runBackgroundOneOff() async {
     setState(() => _isBusy = true);
     try {
-      await TaskManager.registerOneOffDeadlineCheck();
-      _showMessage('已註冊背景任務，約 5 秒後觸發（可將 App 切到背景）');
+      await TaskManager.registerOneOffResync();
+      _showMessage('已註冊背景補掃，約 5 秒後觸發（可將 App 切到背景）');
     } catch (e) {
       _showMessage('註冊失敗: $e');
     } finally {
@@ -126,15 +125,15 @@ class _DebugNotificationsScreenState extends State<DebugNotificationsScreen> {
                 ),
                 const SizedBox(height: 8),
                 FilledButton.tonalIcon(
-                  onPressed: _isBusy ? null : _runDeadlineCheckNow,
-                  icon: const Icon(Icons.rule),
-                  label: const Text('立即執行到期檢查'),
+                  onPressed: _isBusy ? null : _resyncNow,
+                  icon: const Icon(Icons.sync),
+                  label: const Text('立即補掃／重排通知'),
                 ),
                 const SizedBox(height: 8),
                 OutlinedButton.icon(
                   onPressed: _isBusy ? null : _runBackgroundOneOff,
                   icon: const Icon(Icons.schedule),
-                  label: const Text('5 秒後背景執行到期檢查'),
+                  label: const Text('5 秒後背景補掃／重排'),
                 ),
                 if (_isBusy) ...[
                   const SizedBox(height: 12),
@@ -150,7 +149,7 @@ class _DebugNotificationsScreenState extends State<DebugNotificationsScreen> {
                 : _pendingNotifications.isEmpty
                     ? const Center(
                         child: Text(
-                          '目前沒有排程的通知\n（每日檢查改為即時發送，此列表通常為空）',
+                          '目前沒有排程的通知\n（新增未過期物品後會以 zonedSchedule 排到 09:00）',
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 14),
                         ),

@@ -24,6 +24,7 @@ Future<void> setupServiceLocator() async {
   getIt.registerFactory<ExpirableItemBloc>(
     () => ExpirableItemBloc(
       realmHelper: getIt<RealmHelper>(),
+      notificationService: getIt<NotificationService>(),
     ),
   );
 }
